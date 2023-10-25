@@ -1,0 +1,23 @@
+//@version=5
+strategy("RSI Strategy", overlay=true)
+
+// RSI Parameters
+rsiLength = input(14, "RSI Length")
+overboughtLevel = input(60, "Overbought Level")
+oversoldLevel = input(40, "Oversold Level")
+
+// Calculate RSI
+rsiValue = ta.rsi(close, rsiLength)
+
+// Strategy Conditions
+longEntry = ta.cross(rsiValue, oversoldLevel)
+longExit = ta.cross(rsiValue, overboughtLevel)
+
+// ENTER_LONG Condition
+if longEntry
+    strategy.entry("Long Entry", strategy.long)
+
+// EXIT_LONG Condition
+if longExit
+    strategy.close("Long Entry")
+

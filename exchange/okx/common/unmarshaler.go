@@ -403,3 +403,16 @@ func (un *RespUnmarshaler) UnmarshalGetExchangeInfoResponse(data []byte) (map[st
 func (un *RespUnmarshaler) UnmarshalResponse(data []byte, res interface{}) error {
 	return json.Unmarshal(data, res)
 }
+
+func (un *RespUnmarshaler) UnmarshalGetComputeMinInvestment(data []byte) error {
+	sCodeData, _, _, err := jsonparser.Get(data[1:len(data)-1], "sCode")
+	if err != nil {
+		return err
+	}
+
+	if cast.ToInt64(string(sCodeData)) == 0 {
+		return nil
+	}
+
+	return errors.New(string(data))
+}

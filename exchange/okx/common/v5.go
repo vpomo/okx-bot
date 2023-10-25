@@ -21,18 +21,20 @@ func New() *OKxV5 {
 
 	f := &OKxV5{
 		UriOpts: options.UriOptions{
-			Endpoint:            "https://www.okx.com",
-			KlineUri:            "/api/v5/market/candles",
-			TickerUri:           "/api/v5/market/ticker",
-			DepthUri:            "/api/v5/market/books",
-			NewOrderUri:         "/api/v5/trade/order",
-			GetOrderUri:         "/api/v5/trade/order",
-			GetHistoryOrdersUri: "/api/v5/trade/orders-history",
-			GetPendingOrdersUri: "/api/v5/trade/orders-pending",
-			CancelOrderUri:      "/api/v5/trade/cancel-order",
-			GetAccountUri:       "/api/v5/account/balance",
-			GetPositionsUri:     "/api/v5/account/positions",
-			GetExchangeInfoUri:  "/api/v5/public/instruments",
+			Endpoint:              "https://www.okx.com",
+			KlineUri:              "/api/v5/market/candles",
+			TickerUri:             "/api/v5/market/ticker",
+			DepthUri:              "/api/v5/market/books",
+			NewOrderUri:           "/api/v5/trade/order",
+			GetOrderUri:           "/api/v5/trade/order",
+			GetHistoryOrdersUri:   "/api/v5/trade/orders-history",
+			GetPendingOrdersUri:   "/api/v5/trade/orders-pending",
+			CancelOrderUri:        "/api/v5/trade/cancel-order",
+			GetAccountUri:         "/api/v5/account/balance",
+			GetPositionsUri:       "/api/v5/account/positions",
+			GetExchangeInfoUri:    "/api/v5/public/instruments",
+			PlaceGridAlgoOrderUri: "/api/v5/tradingBot/grid/order-algo",
+			ComputeMinInvestment:  "/api/v5/tradingBot/grid/min-investment",
 		},
 		UnmarshalOpts: options.UnmarshalerOptions{
 			ResponseUnmarshaler:                  unmarshaler.UnmarshalResponse,
@@ -48,6 +50,7 @@ func New() *OKxV5 {
 			GetPositionsResponseUnmarshaler:      unmarshaler.UnmarshalGetPositionsResponse,
 			GetFuturesAccountResponseUnmarshaler: unmarshaler.UnmarshalGetFuturesAccountResponse,
 			GetExchangeInfoResponseUnmarshaler:   unmarshaler.UnmarshalGetExchangeInfoResponse,
+			GetComputeMinInvestment:              unmarshaler.UnmarshalGetComputeMinInvestment,
 		},
 	}
 

@@ -151,3 +151,11 @@ type FuturesAccount struct {
 	Upl       float64 `json:"upl,omitempty"`
 	RiskRate  float64 `json:"risk_rate,omitempty"`
 }
+
+// https://www.okx.com/docs-v5/en/#order-book-trading-grid-trading-post-compute-min-investment-public
+type ComputeMinInvestmentResponse struct {
+	InvestmentData string `json:"investment_data,omitempty"`
+	Amt            string `json:"amt,omitempty"`
+	Ccy            string `json:"ccy,omitempty"`
+	SingleAmt      int    `json:"single_amt,omitempty"`
+}
