@@ -153,9 +153,25 @@ type FuturesAccount struct {
 }
 
 // https://www.okx.com/docs-v5/en/#order-book-trading-grid-trading-post-compute-min-investment-public
+type InvestmentData struct {
+	Amt string
+	Ccy string
+}
+
+type ComputeMinInvestmentRequest struct {
+	InstId         string           `json:"inst_id,omitempty"`
+	AlgoOrdType    string           `json:"algo_ord_type,omitempty"`
+	MaxPx          string           `json:"max_px,omitempty"`
+	MinPx          string           `json:"min_px,omitempty"`
+	GridNum        string           `json:"grid_num,omitempty"`
+	RunType        string           `json:"run_type,omitempty"`
+	Direction      string           `json:"direction,omitempty"`
+	Lever          string           `json:"lever,omitempty"`
+	BasePos        bool             `json:"base_pos,omitempty"`
+	InvestmentData []InvestmentData `json:"investment_data,omitempty"`
+}
+
 type ComputeMinInvestmentResponse struct {
-	InvestmentData string `json:"investment_data,omitempty"`
-	Amt            string `json:"amt,omitempty"`
-	Ccy            string `json:"ccy,omitempty"`
-	SingleAmt      int    `json:"single_amt,omitempty"`
+	InvestmentData []InvestmentData `json:"investment_data,omitempty"`
+	SingleAmt      string           `json:"single_amt,omitempty"`
 }

@@ -50,7 +50,7 @@ func New() *OKxV5 {
 			GetPositionsResponseUnmarshaler:      unmarshaler.UnmarshalGetPositionsResponse,
 			GetFuturesAccountResponseUnmarshaler: unmarshaler.UnmarshalGetFuturesAccountResponse,
 			GetExchangeInfoResponseUnmarshaler:   unmarshaler.UnmarshalGetExchangeInfoResponse,
-			GetComputeMinInvestment:              unmarshaler.UnmarshalGetComputeMinInvestment,
+			GetCompMinInvestResponseUnmarshaler:  unmarshaler.UnmarshalGetComputeMinInvestmentResponse,
 		},
 	}
 

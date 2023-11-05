@@ -8,6 +8,7 @@ import (
 	"okx-bot/exchange/logger"
 	"okx-bot/exchange/model"
 	"okx-bot/exchange/util"
+	"strconv"
 )
 
 func (okx *OKxV5) GetName() string {
@@ -86,10 +87,46 @@ func (okx *OKxV5) GetExchangeInfo(instType string, opt ...model.OptionParameter)
 	return currencyPairMap, responseBody, err
 }
 
+func (okx *OKxV5) GetCompMinInvest(minInvestReq model.ComputeMinInvestmentRequest, opt ...model.OptionParameter) (model.ComputeMinInvestmentResponse, []byte, error) {
+	reqUrl := fmt.Sprintf("%s%s", okx.UriOpts.Endpoint, okx.UriOpts.ComputeMinInvestment)
+	params := url.Values{}
+	params.Set("instId", minInvestReq.InstId)
+	params.Set("algoOrdType", minInvestReq.AlgoOrdType)
+	params.Set("maxPx", minInvestReq.MaxPx)
+	params.Set("minPx", minInvestReq.MinPx)
+	params.Set("gridNum", minInvestReq.GridNum)
+	params.Set("runType", minInvestReq.RunType)
+	params.Set("direction", minInvestReq.Direction)
+	params.Set("lever", minInvestReq.Lever)
+	params.Set("basePos", strconv.FormatBool(minInvestReq.BasePos))
+	//params.Set("investmentData", minInvestReq.InvestmentData)
+
+	util.MergeOptionParams(&params, opt...)
+
+	data, responseBody, err := okx.DoNoAuthRequest(http.MethodPost, reqUrl, &params)
+	if err != nil {
+		return model.ComputeMinInvestmentResponse{}, responseBody, err
+	}
+
+	logger.Info("responseBody", string(responseBody))
+	logger.Info("data", string(data))
+
+	minInvestment, err := okx.UnmarshalOpts.GetCompMinInvestResponseUnmarshaler(data)
+
+	return minInvestment, responseBody, err
+}
+
 func (okx *OKxV5) DoNoAuthRequest(httpMethod, reqUrl string, params *url.Values) ([]byte, []byte, error) {
 	reqBody := ""
+
 	if http.MethodGet == httpMethod {
 		reqUrl += "?" + params.Encode()
+	}
+
+	if http.MethodPost == httpMethod {
+		params.Set("tag", "86d4a3bf87bcBCDE")
+		reqBodyByte, _ := util.ValuesToJson(*params)
+		reqBody = string(reqBodyByte)
 	}
 
 	responseBody, err := httpcli.Cli.DoRequest(httpMethod, reqUrl, reqBody, nil)

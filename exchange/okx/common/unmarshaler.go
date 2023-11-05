@@ -404,15 +404,45 @@ func (un *RespUnmarshaler) UnmarshalResponse(data []byte, res interface{}) error
 	return json.Unmarshal(data, res)
 }
 
-func (un *RespUnmarshaler) UnmarshalGetComputeMinInvestment(data []byte) error {
-	sCodeData, _, _, err := jsonparser.Get(data[1:len(data)-1], "sCode")
-	if err != nil {
-		return err
-	}
+func (un *RespUnmarshaler) UnmarshalGetComputeMinInvestmentResponse(data []byte) (model.ComputeMinInvestmentResponse, error) {
+	var minInvestment = new(model.ComputeMinInvestmentResponse)
+	var investData = new(model.InvestmentData)
 
-	if cast.ToInt64(string(sCodeData)) == 0 {
-		return nil
-	}
+	logger.Info("!!!!")
 
-	return errors.New(string(data))
+	_, err := jsonparser.ArrayEach(data, func(value []byte, dataType jsonparser.ValueType, offset int, err error) {
+		err = jsonparser.ObjectEach(value, func(key []byte, respData []byte, dataType jsonparser.ValueType, offset int) error {
+			investmentDataStr := string(respData)
+			switch string(key) {
+			case "minInvestmentData":
+				logger.Info("!!!! investmentData ", investmentDataStr)
+				_, _ = jsonparser.ArrayEach(respData, func(value []byte, dataType jsonparser.ValueType, offset int, err error) {
+					err = jsonparser.ObjectEach(value, func(key []byte, respData []byte, dataType jsonparser.ValueType, offset int) error {
+						newInvestmentDataStr := string(respData)
+						switch string(key) {
+						case "amt":
+							investData.Amt = newInvestmentDataStr
+						case "ccy":
+							investData.Ccy = newInvestmentDataStr
+						}
+						return err
+					})
+					if err != nil {
+						return
+					}
+				})
+			case "singleAmt":
+				logger.Info("!!!! singleAmt ", investmentDataStr)
+				minInvestment.SingleAmt = investmentDataStr
+			}
+			return err
+		})
+
+		if err != nil {
+			return
+		}
+	})
+	minInvestment.InvestmentData = append(minInvestment.InvestmentData, *investData)
+
+	return *minInvestment, err
 }
