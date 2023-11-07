@@ -158,6 +158,28 @@ func (prv *Prv) CancelOrder(pair model.CurrencyPair, id string, opt ...model.Opt
 	return responseBody, err
 }
 
+func (prv *Prv) GetGridAlgoOrderDetails(req model.GridAlgoOrderDetailsRequest, opt ...model.OptionParameter) (model.GridAlgoOrderDetailsResponse, []byte, error) {
+	reqUrl := fmt.Sprintf("%s%s", prv.UriOpts.Endpoint, prv.UriOpts.GetAlgoOrderDetails)
+
+	params := url.Values{}
+	params.Set("algoOrdType", req.AlgoOrdType)
+	params.Set("algoId", req.AlgoId)
+
+	util.MergeOptionParams(&params, opt...)
+
+	data, responseBody, err := prv.DoAuthRequest(http.MethodGet, reqUrl, &params, nil)
+	if err != nil {
+		return model.GridAlgoOrderDetailsResponse{}, responseBody, err
+	}
+
+	logger.Info("responseBody", string(responseBody))
+	logger.Info("data", string(data))
+
+	details, err := prv.UnmarshalOpts.GetAlgoOrderDetailsResponseUnmarshaler(data)
+
+	return details, responseBody, err
+}
+
 func (prv *Prv) DoSignParam(httpMethod, apiUri, apiSecret, reqBody string) (signStr, timestamp string) {
 	timestamp = time.Now().UTC().Format("2006-01-02T15:04:05.000Z") //iso time style
 	payload := fmt.Sprintf("%s%s%s%s", timestamp, strings.ToUpper(httpMethod), apiUri, reqBody)

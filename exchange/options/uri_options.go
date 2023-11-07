@@ -15,6 +15,7 @@ type UriOptions struct {
 	GetExchangeInfoUri    string
 	PlaceGridAlgoOrderUri string
 	ComputeMinInvestment  string
+	GetAlgoOrderDetails   string
 }
 
 type UriOption func(*UriOptions)

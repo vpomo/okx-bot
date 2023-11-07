@@ -408,14 +408,11 @@ func (un *RespUnmarshaler) UnmarshalGetComputeMinInvestmentResponse(data []byte)
 	var minInvestment = new(model.ComputeMinInvestmentResponse)
 	var investData = new(model.InvestmentData)
 
-	logger.Info("!!!!")
-
 	_, err := jsonparser.ArrayEach(data, func(value []byte, dataType jsonparser.ValueType, offset int, err error) {
 		err = jsonparser.ObjectEach(value, func(key []byte, respData []byte, dataType jsonparser.ValueType, offset int) error {
 			investmentDataStr := string(respData)
 			switch string(key) {
 			case "minInvestmentData":
-				logger.Info("!!!! investmentData ", investmentDataStr)
 				_, _ = jsonparser.ArrayEach(respData, func(value []byte, dataType jsonparser.ValueType, offset int, err error) {
 					err = jsonparser.ObjectEach(value, func(key []byte, respData []byte, dataType jsonparser.ValueType, offset int) error {
 						newInvestmentDataStr := string(respData)
@@ -432,7 +429,6 @@ func (un *RespUnmarshaler) UnmarshalGetComputeMinInvestmentResponse(data []byte)
 					}
 				})
 			case "singleAmt":
-				logger.Info("!!!! singleAmt ", investmentDataStr)
 				minInvestment.SingleAmt = investmentDataStr
 			}
 			return err
@@ -445,4 +441,177 @@ func (un *RespUnmarshaler) UnmarshalGetComputeMinInvestmentResponse(data []byte)
 	minInvestment.InvestmentData = append(minInvestment.InvestmentData, *investData)
 
 	return *minInvestment, err
+}
+
+func (un *RespUnmarshaler) UnmarshalGetAlgoOrderDetailsResponse(data []byte) (model.GridAlgoOrderDetailsResponse, error) {
+	var details = new(model.GridAlgoOrderDetailsResponse)
+	var rebateTrans = new(model.RebateTrans)
+	var triggerParams = new(model.TriggerParams)
+
+	_, err := jsonparser.ArrayEach(data, func(value []byte, dataType jsonparser.ValueType, offset int, err error) {
+		err = jsonparser.ObjectEach(value, func(key []byte, respData []byte, dataType jsonparser.ValueType, offset int) error {
+			detailsStr := string(respData)
+			switch string(key) {
+			case "rebateTrans":
+				_, _ = jsonparser.ArrayEach(respData, func(value []byte, dataType jsonparser.ValueType, offset int, err error) {
+					err = jsonparser.ObjectEach(value, func(key []byte, respData []byte, dataType jsonparser.ValueType, offset int) error {
+						detailsStr := string(respData)
+						switch string(key) {
+						case "rebate":
+							rebateTrans.Rebate = detailsStr
+						case "ccy":
+							rebateTrans.RebateCcy = detailsStr
+						}
+						return err
+					})
+					if err != nil {
+						return
+					}
+					details.RebateTrans = append(details.RebateTrans, *rebateTrans)
+				})
+			case "triggerParams":
+				_, _ = jsonparser.ArrayEach(respData, func(value []byte, dataType jsonparser.ValueType, offset int, err error) {
+					err = jsonparser.ObjectEach(value, func(key []byte, respData []byte, dataType jsonparser.ValueType, offset int) error {
+						detailsStr := string(respData)
+						switch string(key) {
+						case "triggerAction":
+							triggerParams.TriggerAction = detailsStr
+						case "triggerStrategy":
+							triggerParams.TriggerStrategy = detailsStr
+						case "delaySeconds":
+							triggerParams.DelaySeconds = detailsStr
+						case "triggerTime":
+							triggerParams.TriggerTime = detailsStr
+						case "triggerType":
+							triggerParams.TriggerType = detailsStr
+						case "timeframe":
+							triggerParams.Timeframe = detailsStr
+						case "thold":
+							triggerParams.Thold = detailsStr
+						case "triggerCond":
+							triggerParams.TriggerCond = detailsStr
+						case "timePeriod":
+							triggerParams.TimePeriod = detailsStr
+						case "triggerPx":
+							triggerParams.TriggerPx = detailsStr
+						case "stopType":
+							triggerParams.StopType = detailsStr
+						}
+						return err
+					})
+					if err != nil {
+						return
+					}
+					details.TriggerParams = append(details.TriggerParams, *triggerParams)
+				})
+			case "algoId":
+				details.AlgoId = detailsStr
+			case "algoClOrdId":
+				details.AlgoClOrdId = detailsStr
+			case "instType":
+				details.InstType = detailsStr
+			case "instId":
+				details.InstId = detailsStr
+			case "cTime":
+				details.CTime = detailsStr
+			case "uTime":
+				details.UTime = detailsStr
+			case "algoOrdType":
+				details.AlgoOrdType = detailsStr
+			case "state":
+				details.State = detailsStr
+			case "maxPx":
+				details.MaxPx = detailsStr
+			case "minPx":
+				details.MinPx = detailsStr
+			case "gridNum":
+				details.GridNum = detailsStr
+			case "runType":
+				details.RunType = detailsStr
+			case "tpTriggerPx":
+				details.TpTriggerPx = detailsStr
+			case "slTriggerPx":
+				details.SlTriggerPx = detailsStr
+			case "tradeNum":
+				details.TradeNum = detailsStr
+			case "arbitrageNum":
+				details.ArbitrageNum = detailsStr
+			case "singleAmt":
+				details.SingleAmt = detailsStr
+			case "perMinProfitRate":
+				details.PerMinProfitRate = detailsStr
+			case "perMaxProfitRate":
+				details.PerMaxProfitRate = detailsStr
+			case "runPx":
+				details.RunPx = detailsStr
+			case "totalPnl":
+				details.TotalPnl = detailsStr
+			case "pnlRatio":
+				details.PnlRatio = detailsStr
+			case "investment":
+				details.Investment = detailsStr
+			case "gridProfit":
+				details.GridProfit = detailsStr
+			case "floatProfit":
+				details.FloatProfit = detailsStr
+			case "totalAnnualizedRate":
+				details.TotalAnnualizedRate = detailsStr
+			case "annualizedRate":
+				details.AnnualizedRate = detailsStr
+			case "cancelType":
+				details.CancelType = detailsStr
+			case "stopType":
+				details.StopType = detailsStr
+			case "activeOrdNum":
+				details.ActiveOrdNum = detailsStr
+			case "quoteSz":
+				details.QuoteSz = detailsStr
+			case "baseSz":
+				details.BaseSz = detailsStr
+			case "curQuoteSz":
+				details.CurQuoteSz = detailsStr
+			case "curBaseSz":
+				details.CurBaseSz = detailsStr
+			case "profit":
+				details.Profit = detailsStr
+			case "stopResult":
+				details.StopResult = detailsStr
+			case "direction":
+				details.Direction = detailsStr
+			case "basePos":
+				details.BasePos = detailsStr
+			case "sz":
+				details.Sz = detailsStr
+			case "lever":
+				details.Lever = detailsStr
+			case "actualLever":
+				details.ActualLever = detailsStr
+			case "liqPx":
+				details.LiqPx = detailsStr
+			case "uly":
+				details.Uly = detailsStr
+			case "instFamily":
+				details.InstFamily = detailsStr
+			case "ordFrozen":
+				details.OrdFrozen = detailsStr
+			case "availEq":
+				details.AvailEq = detailsStr
+			case "eq":
+				details.Eq = detailsStr
+			case "tag":
+				details.Tag = detailsStr
+			case "profitSharingRatio":
+				details.ProfitSharingRatio = detailsStr
+			case "copyType":
+				details.CopyType = detailsStr
+			}
+			return err
+		})
+
+		if err != nil {
+			return
+		}
+	})
+
+	return *details, err
 }

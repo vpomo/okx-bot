@@ -153,11 +153,6 @@ type FuturesAccount struct {
 }
 
 // https://www.okx.com/docs-v5/en/#order-book-trading-grid-trading-post-compute-min-investment-public
-type InvestmentData struct {
-	Amt string
-	Ccy string
-}
-
 type ComputeMinInvestmentRequest struct {
 	InstId         string           `json:"inst_id,omitempty"`
 	AlgoOrdType    string           `json:"algo_ord_type,omitempty"`
@@ -171,7 +166,93 @@ type ComputeMinInvestmentRequest struct {
 	InvestmentData []InvestmentData `json:"investment_data,omitempty"`
 }
 
+type InvestmentData struct {
+	Amt string
+	Ccy string
+}
+
 type ComputeMinInvestmentResponse struct {
 	InvestmentData []InvestmentData `json:"investment_data,omitempty"`
 	SingleAmt      string           `json:"single_amt,omitempty"`
+}
+
+// https://www.okx.com/docs-v5/en/#order-book-trading-grid-trading-get-grid-algo-order-details
+// GET /api/v5/tradingBot/grid/orders-algo-details
+type GridAlgoOrderDetailsRequest struct {
+	AlgoOrdType string `json:"algo_ord_type,omitempty"`
+	AlgoId      string `json:"algo_id,omitempty"`
+}
+
+type GridAlgoOrderDetailsResponse struct {
+	AlgoId              string          `json:"algo_id,omitempty"`
+	AlgoClOrdId         string          `json:"algo_cl_ord_id,omitempty"`
+	InstType            string          `json:"inst_type,omitempty"`
+	InstId              string          `json:"inst_id,omitempty"`
+	CTime               string          `json:"c_time,omitempty"`
+	UTime               string          `json:"u_time,omitempty"`
+	AlgoOrdType         string          `json:"algo_ord_type,omitempty"`
+	State               string          `json:"state,omitempty"`
+	RebateTrans         []RebateTrans   `json:"rebate_trans,omitempty"`
+	TriggerParams       []TriggerParams `json:"trigger_params,omitempty"`
+	MaxPx               string          `json:"max_px,omitempty"`
+	MinPx               string          `json:"min_px,omitempty"`
+	GridNum             string          `json:"grid_num,omitempty"`
+	RunType             string          `json:"run_type,omitempty"`
+	TpTriggerPx         string          `json:"tp_trigger_px,omitempty"`
+	SlTriggerPx         string          `json:"sl_trigger_px,omitempty"`
+	TradeNum            string          `json:"trade_num,omitempty"`
+	ArbitrageNum        string          `json:"arbitrage_num,omitempty"`
+	SingleAmt           string          `json:"single_amt,omitempty"`
+	PerMinProfitRate    string          `json:"per_min_profit_rate,omitempty"`
+	PerMaxProfitRate    string          `json:"per_max_profit_rate,omitempty"`
+	RunPx               string          `json:"run_px,omitempty"`
+	TotalPnl            string          `json:"total_pnl,omitempty"`
+	PnlRatio            string          `json:"pnl_ratio,omitempty"`
+	Investment          string          `json:"investment,omitempty"`
+	GridProfit          string          `json:"grid_profit,omitempty"`
+	FloatProfit         string          `json:"float_profit,omitempty"`
+	TotalAnnualizedRate string          `json:"total_annualized_rate,omitempty"`
+	AnnualizedRate      string          `json:"annualized_rate,omitempty"`
+	CancelType          string          `json:"cancel_type,omitempty"`
+	StopType            string          `json:"stop_type,omitempty"`
+	ActiveOrdNum        string          `json:"active_ord_num,omitempty"`
+	QuoteSz             string          `json:"quote_sz,omitempty"`
+	BaseSz              string          `json:"base_sz,omitempty"`
+	CurQuoteSz          string          `json:"cur_quote_sz,omitempty"`
+	CurBaseSz           string          `json:"cur_base_sz,omitempty"`
+	Profit              string          `json:"profit,omitempty"`
+	StopResult          string          `json:"stop_result,omitempty"`
+	Direction           string          `json:"direction,omitempty"`
+	BasePos             string          `json:"base_pos,omitempty"`
+	Sz                  string          `json:"sz,omitempty"`
+	Lever               string          `json:"lever,omitempty"`
+	ActualLever         string          `json:"actual_lever,omitempty"`
+	LiqPx               string          `json:"liq_px,omitempty"`
+	Uly                 string          `json:"uly,omitempty"`
+	InstFamily          string          `json:"inst_family,omitempty"`
+	OrdFrozen           string          `json:"ord_frozen,omitempty"`
+	AvailEq             string          `json:"avail_eq,omitempty"`
+	Eq                  string          `json:"eq,omitempty"`
+	Tag                 string          `json:"tag,omitempty"`
+	ProfitSharingRatio  string          `json:"profit_sharing_ratio,omitempty"`
+	CopyType            string          `json:"copy_type,omitempty"`
+}
+
+type RebateTrans struct {
+	Rebate    string
+	RebateCcy string
+}
+
+type TriggerParams struct {
+	TriggerAction   string
+	TriggerStrategy string
+	DelaySeconds    string
+	TriggerTime     string
+	TriggerType     string
+	Timeframe       string
+	Thold           string
+	TriggerCond     string
+	TimePeriod      string
+	TriggerPx       string
+	StopType        string
 }

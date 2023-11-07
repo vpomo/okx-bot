@@ -16,22 +16,24 @@ type GetPositionsResponseUnmarshaler func([]byte) ([]model.FuturesPosition, erro
 type GetFuturesAccountResponseUnmarshaler func([]byte) (map[string]model.FuturesAccount, error)
 type GetExchangeInfoResponseUnmarshaler func([]byte) (map[string]model.CurrencyPair, error)
 type GetCompMinInvestResponseUnmarshaler func([]byte) (model.ComputeMinInvestmentResponse, error)
+type GetAlgoOrderDetailsResponseUnmarshaler func([]byte) (model.GridAlgoOrderDetailsResponse, error)
 
 type UnmarshalerOptions struct {
-	ResponseUnmarshaler                  ResponseUnmarshaler
-	TickerUnmarshaler                    GetTickerResponseUnmarshaler
-	DepthUnmarshaler                     GetDepthResponseUnmarshaler
-	KlineUnmarshaler                     GetKlineResponseUnmarshaler
-	CreateOrderResponseUnmarshaler       CreateOrderResponseUnmarshaler
-	GetOrderInfoResponseUnmarshaler      GetOrderInfoResponseUnmarshaler
-	GetPendingOrdersResponseUnmarshaler  GetPendingOrdersResponseUnmarshaler
-	GetHistoryOrdersResponseUnmarshaler  GetHistoryOrdersResponseUnmarshaler
-	CancelOrderResponseUnmarshaler       CancelOrderResponseUnmarshaler
-	GetAccountResponseUnmarshaler        GetAccountResponseUnmarshaler
-	GetPositionsResponseUnmarshaler      GetPositionsResponseUnmarshaler
-	GetFuturesAccountResponseUnmarshaler GetFuturesAccountResponseUnmarshaler
-	GetExchangeInfoResponseUnmarshaler   GetExchangeInfoResponseUnmarshaler
-	GetCompMinInvestResponseUnmarshaler  GetCompMinInvestResponseUnmarshaler
+	ResponseUnmarshaler                    ResponseUnmarshaler
+	TickerUnmarshaler                      GetTickerResponseUnmarshaler
+	DepthUnmarshaler                       GetDepthResponseUnmarshaler
+	KlineUnmarshaler                       GetKlineResponseUnmarshaler
+	CreateOrderResponseUnmarshaler         CreateOrderResponseUnmarshaler
+	GetOrderInfoResponseUnmarshaler        GetOrderInfoResponseUnmarshaler
+	GetPendingOrdersResponseUnmarshaler    GetPendingOrdersResponseUnmarshaler
+	GetHistoryOrdersResponseUnmarshaler    GetHistoryOrdersResponseUnmarshaler
+	CancelOrderResponseUnmarshaler         CancelOrderResponseUnmarshaler
+	GetAccountResponseUnmarshaler          GetAccountResponseUnmarshaler
+	GetPositionsResponseUnmarshaler        GetPositionsResponseUnmarshaler
+	GetFuturesAccountResponseUnmarshaler   GetFuturesAccountResponseUnmarshaler
+	GetExchangeInfoResponseUnmarshaler     GetExchangeInfoResponseUnmarshaler
+	GetCompMinInvestResponseUnmarshaler    GetCompMinInvestResponseUnmarshaler
+	GetAlgoOrderDetailsResponseUnmarshaler GetAlgoOrderDetailsResponseUnmarshaler
 }
 
 type UnmarshalerOption func(options *UnmarshalerOptions)

@@ -95,8 +95,20 @@ func main() {
 	log.Info(string(respBody))
 	log.Info("calcGridMinInvestment", calcGridMinInvestment.SingleAmt)
 	resp := calcGridMinInvestment.InvestmentData
-	log.Info("calcGridMinInvestment", resp[0].Amt)
-	log.Info("calcGridMinInvestment", resp[0].Ccy)
+	log.Info("calcGridMinInvestment: ", resp[0].Amt)
+	log.Info("calcGridMinInvestment: ", resp[0].Ccy)
+
+	gridAlgoOrderDetailsRequest := new(model.GridAlgoOrderDetailsRequest)
+	gridAlgoOrderDetailsRequest.AlgoOrdType = "contract_grid"
+	gridAlgoOrderDetailsRequest.AlgoId = "642028702938959872"
+
+	gridAlgoOrderDetailsResponse, respBody, err := okxPrvApi.GetGridAlgoOrderDetails(*gridAlgoOrderDetailsRequest)
+	if err != nil {
+		log.Error(err)
+		panic(err)
+	}
+	log.Info(string(respBody))
+	log.Info("gridAlgoOrderDetailsResponse: ", gridAlgoOrderDetailsResponse)
 
 	log.Info("\n")
 	log.Info("======================================")
