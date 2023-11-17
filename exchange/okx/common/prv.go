@@ -180,6 +180,32 @@ func (prv *Prv) GetGridAlgoOrderDetails(req model.GridAlgoOrderDetailsRequest, o
 	return details, responseBody, err
 }
 
+func (prv *Prv) PlaceGridAlgoOrder(req model.PlaceGridAlgoOrderRequest, opt ...model.OptionParameter) (model.PlaceGridAlgoOrderResponse, []byte, error) {
+	reqUrl := fmt.Sprintf("%s%s", prv.UriOpts.Endpoint, prv.UriOpts.PostPlaceGridAlgoOrderUri)
+
+	params := url.Values{}
+	params.Set("instId", req.InstId)
+	params.Set("algoOrdType", req.AlgoOrdType)
+	params.Set("maxPx", req.MaxPx)
+	params.Set("minPx", req.MinPx)
+	params.Set("gridNum", req.GridNum)
+	params.Set("runType", req.RunType)
+
+	util.MergeOptionParams(&params, opt...)
+
+	data, responseBody, err := prv.DoAuthRequest(http.MethodPost, reqUrl, &params, nil)
+	if err != nil {
+		return model.PlaceGridAlgoOrderResponse{}, responseBody, err
+	}
+
+	logger.Info("responseBody", string(responseBody))
+	logger.Info("data", string(data))
+
+	details, err := prv.UnmarshalOpts.PlaceGridAlgoOrderResponseUnmarshaler(data)
+
+	return details, responseBody, err
+}
+
 func (prv *Prv) DoSignParam(httpMethod, apiUri, apiSecret, reqBody string) (signStr, timestamp string) {
 	timestamp = time.Now().UTC().Format("2006-01-02T15:04:05.000Z") //iso time style
 	payload := fmt.Sprintf("%s%s%s%s", timestamp, strings.ToUpper(httpMethod), apiUri, reqBody)

@@ -1,21 +1,21 @@
 package options
 
 type UriOptions struct {
-	Endpoint              string
-	TickerUri             string
-	DepthUri              string
-	KlineUri              string
-	GetOrderUri           string
-	GetPendingOrdersUri   string
-	GetHistoryOrdersUri   string
-	CancelOrderUri        string
-	NewOrderUri           string
-	GetAccountUri         string
-	GetPositionsUri       string
-	GetExchangeInfoUri    string
-	PlaceGridAlgoOrderUri string
-	ComputeMinInvestment  string
-	GetAlgoOrderDetails   string
+	Endpoint                  string
+	TickerUri                 string
+	DepthUri                  string
+	KlineUri                  string
+	GetOrderUri               string
+	GetPendingOrdersUri       string
+	GetHistoryOrdersUri       string
+	CancelOrderUri            string
+	NewOrderUri               string
+	GetAccountUri             string
+	GetPositionsUri           string
+	GetExchangeInfoUri        string
+	PostPlaceGridAlgoOrderUri string
+	PostComputeMinInvestment  string
+	GetAlgoOrderDetails       string
 }
 
 type UriOption func(*UriOptions)

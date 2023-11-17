@@ -102,13 +102,11 @@ func main() {
 	gridAlgoOrderDetailsRequest.AlgoOrdType = "contract_grid"
 	gridAlgoOrderDetailsRequest.AlgoId = "642028702938959872"
 
-	gridAlgoOrderDetailsResponse, respBody, err := okxPrvApi.GetGridAlgoOrderDetails(*gridAlgoOrderDetailsRequest)
-	if err != nil {
-		log.Error(err)
-		panic(err)
-	}
-	log.Info(string(respBody))
-	log.Info("gridAlgoOrderDetailsResponse: ", gridAlgoOrderDetailsResponse)
+	//gridAlgoOrderDetailsResponse, respBody, err := okxPrvApi.GetGridAlgoOrderDetails(*gridAlgoOrderDetailsRequest)
+	//if err != nil {
+	//	log.Error(err)
+	//	panic(err)
+	//}
 
 	log.Info("\n")
 	log.Info("======================================")

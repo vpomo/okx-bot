@@ -256,3 +256,27 @@ type TriggerParams struct {
 	TriggerPx       string
 	StopType        string
 }
+
+// https://www.okx.com/docs-v5/en/#order-book-trading-grid-trading-post-place-grid-algo-order
+// POST /api/v5/tradingBot/grid/order-algo
+type PlaceGridAlgoOrderRequest struct {
+	InstId        string          `json:"inst_id,omitempty"`
+	AlgoOrdType   string          `json:"algo_ord_type,omitempty"`
+	MaxPx         string          `json:"max_px,omitempty"`
+	MinPx         string          `json:"min_px,omitempty"`
+	GridNum       string          `json:"grid_num,omitempty"`
+	RunType       string          `json:"run_type,omitempty"`
+	TpTriggerPx   string          `json:"tp_trigger_px,omitempty"`
+	SlTriggerPx   string          `json:"sl_trigger_px,omitempty"`
+	AlgoClOrdId   string          `json:"algo_cl_ord_id,omitempty"`
+	Tag           string          `json:"tag,omitempty"`
+	TriggerParams []TriggerParams `json:"trigger_params,omitempty"`
+}
+
+type PlaceGridAlgoOrderResponse struct {
+	AlgoId      string `json:"algo_id,omitempty"`
+	AlgoClOrdId string `json:"algo_cl_ord_id,omitempty"`
+	SCode       string `json:"s_code,omitempty"`
+	SMsg        string `json:"s_msg,omitempty"`
+	Tag         string `json:"tag,omitempty"`
+}

@@ -88,7 +88,7 @@ func (okx *OKxV5) GetExchangeInfo(instType string, opt ...model.OptionParameter)
 }
 
 func (okx *OKxV5) GetCompMinInvest(minInvestReq model.ComputeMinInvestmentRequest, opt ...model.OptionParameter) (model.ComputeMinInvestmentResponse, []byte, error) {
-	reqUrl := fmt.Sprintf("%s%s", okx.UriOpts.Endpoint, okx.UriOpts.ComputeMinInvestment)
+	reqUrl := fmt.Sprintf("%s%s", okx.UriOpts.Endpoint, okx.UriOpts.PostComputeMinInvestment)
 	params := url.Values{}
 	params.Set("instId", minInvestReq.InstId)
 	params.Set("algoOrdType", minInvestReq.AlgoOrdType)

@@ -13,3 +13,8 @@ func (prv *PrvApi) GetGridAlgoOrderDetails(req model.GridAlgoOrderDetailsRequest
 	details, respBody, err := prv.Prv.GetGridAlgoOrderDetails(req)
 	return details, respBody, err
 }
+
+func (prv *PrvApi) PlaceGridAlgoOrder(req model.PlaceGridAlgoOrderRequest) (model.PlaceGridAlgoOrderResponse, []byte, error) {
+	details, respBody, err := prv.Prv.PlaceGridAlgoOrder(req)
+	return details, respBody, err
+}

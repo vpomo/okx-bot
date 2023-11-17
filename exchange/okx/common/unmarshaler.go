@@ -615,3 +615,32 @@ func (un *RespUnmarshaler) UnmarshalGetAlgoOrderDetailsResponse(data []byte) (mo
 
 	return *details, err
 }
+
+func (un *RespUnmarshaler) UnmarshalPostPlaceGridAlgoOrder(data []byte) (model.PlaceGridAlgoOrderResponse, error) {
+	var details = new(model.PlaceGridAlgoOrderResponse)
+
+	_, err := jsonparser.ArrayEach(data, func(value []byte, dataType jsonparser.ValueType, offset int, err error) {
+		err = jsonparser.ObjectEach(value, func(key []byte, respData []byte, dataType jsonparser.ValueType, offset int) error {
+			detailsStr := string(respData)
+			switch string(key) {
+			case "algoId":
+				details.AlgoId = detailsStr
+			case "algoClOrdId":
+				details.AlgoClOrdId = detailsStr
+			case "sCode":
+				details.SCode = detailsStr
+			case "sMsg":
+				details.SMsg = detailsStr
+			case "tag":
+				details.Tag = detailsStr
+			}
+			return err
+		})
+
+		if err != nil {
+			return
+		}
+	})
+
+	return *details, err
+}
