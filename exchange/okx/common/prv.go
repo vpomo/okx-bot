@@ -190,6 +190,11 @@ func (prv *Prv) PlaceGridAlgoOrder(req model.PlaceGridAlgoOrderRequest, opt ...m
 	params.Set("minPx", req.MinPx)
 	params.Set("gridNum", req.GridNum)
 	params.Set("runType", req.RunType)
+	params.Set("sz", req.Sz)
+	params.Set("direction", req.Direction)
+	params.Set("lever", req.Lever)
+	params.Set("tag", req.Tag)
+	params.Set("basePos", req.BasePos)
 
 	util.MergeOptionParams(&params, opt...)
 

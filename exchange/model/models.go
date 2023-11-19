@@ -270,6 +270,10 @@ type PlaceGridAlgoOrderRequest struct {
 	SlTriggerPx   string          `json:"sl_trigger_px,omitempty"`
 	AlgoClOrdId   string          `json:"algo_cl_ord_id,omitempty"`
 	Tag           string          `json:"tag,omitempty"`
+	Sz            string          `json:"sz,omitempty"`
+	Direction     string          `json:"direction,omitempty"`
+	Lever         string          `json:"lever,omitempty"`
+	BasePos       string          `json:"base_pos,omitempty"`
 	TriggerParams []TriggerParams `json:"trigger_params,omitempty"`
 }
 

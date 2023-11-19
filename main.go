@@ -108,6 +108,23 @@ func main() {
 	//	panic(err)
 	//}
 
+	newGridOrder := new(model.PlaceGridAlgoOrderRequest)
+	newGridOrder.GridNum = "20"
+	newGridOrder.MinPx = "10"
+	newGridOrder.MaxPx = "12"
+	newGridOrder.InstId = "ORDI-USDT-SWAP"
+	newGridOrder.AlgoOrdType = "contract_grid"
+	newGridOrder.Lever = "5"
+	newGridOrder.Direction = "long"
+	newGridOrder.Sz = "8"
+
+	placeGridAlgoOrderResponse, respBody, err := okxPrvApi.PlaceGridAlgoOrder(*newGridOrder)
+	log.Info("algoId ", placeGridAlgoOrderResponse.AlgoId)
+	log.Info("respBody ", string(respBody))
+	if err != nil {
+		log.Error(err)
+	}
+
 	log.Info("\n")
 	log.Info("======================================")
 	log.Info("finished")
