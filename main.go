@@ -100,30 +100,48 @@ func main() {
 
 	gridAlgoOrderDetailsRequest := new(model.GridAlgoOrderDetailsRequest)
 	gridAlgoOrderDetailsRequest.AlgoOrdType = "contract_grid"
-	gridAlgoOrderDetailsRequest.AlgoId = "642028702938959872"
+	gridAlgoOrderDetailsRequest.AlgoId = "665614704722841600"
 
-	//gridAlgoOrderDetailsResponse, respBody, err := okxPrvApi.GetGridAlgoOrderDetails(*gridAlgoOrderDetailsRequest)
+	gridAlgoOrderDetailsResponse, respBody, err := okxPrvApi.GetGridAlgoOrderDetails(*gridAlgoOrderDetailsRequest)
+	if err != nil {
+		log.Error(err)
+		panic(err)
+	}
+	log.Info("gridAlgoOrderDetailsResponse ", gridAlgoOrderDetailsResponse)
+
+	//newGridOrder := new(model.PlaceGridAlgoOrderRequest)
+	//newGridOrder.GridNum = "20"
+	//newGridOrder.MinPx = "10"
+	//newGridOrder.MaxPx = "12"
+	//newGridOrder.InstId = "ORDI-USDT-SWAP"
+	//newGridOrder.AlgoOrdType = "contract_grid"
+	//newGridOrder.Lever = "5"
+	//newGridOrder.Direction = "long"
+	//newGridOrder.Sz = "8"
+	//
+	//placeGridAlgoOrderResponse, respBody, err := okxPrvApi.PlaceGridAlgoOrder(*newGridOrder)
+	//algoId := placeGridAlgoOrderResponse.AlgoId
+	//log.Info("respBody ", string(respBody))
 	//if err != nil {
 	//	log.Error(err)
-	//	panic(err)
 	//}
+	//log.Info("placeGridAlgoOrderResponse ", placeGridAlgoOrderResponse)
+	//log.Info("algoId ", algoId)
 
-	newGridOrder := new(model.PlaceGridAlgoOrderRequest)
-	newGridOrder.GridNum = "20"
-	newGridOrder.MinPx = "10"
-	newGridOrder.MaxPx = "12"
-	newGridOrder.InstId = "ORDI-USDT-SWAP"
-	newGridOrder.AlgoOrdType = "contract_grid"
-	newGridOrder.Lever = "5"
-	newGridOrder.Direction = "long"
-	newGridOrder.Sz = "8"
+	algoId := "665614704722841600"
+	stopGridOrder := new(model.StopGridAlgoOrderRequest)
 
-	placeGridAlgoOrderResponse, respBody, err := okxPrvApi.PlaceGridAlgoOrder(*newGridOrder)
-	log.Info("algoId ", placeGridAlgoOrderResponse.AlgoId)
+	stopGridOrder.AlgoId = algoId
+	stopGridOrder.InstId = "ORDI-USDT-SWAP"
+	stopGridOrder.AlgoOrdType = "contract_grid"
+	stopGridOrder.StopType = "1"
+
+	stopGridAlgoOrderResponse, respBody, err := okxPrvApi.StopGridAlgoOrder(*stopGridOrder)
 	log.Info("respBody ", string(respBody))
 	if err != nil {
 		log.Error(err)
 	}
+	log.Info("stopGridAlgoOrderResponse ", stopGridAlgoOrderResponse)
 
 	log.Info("\n")
 	log.Info("======================================")

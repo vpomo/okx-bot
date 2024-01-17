@@ -211,6 +211,34 @@ func (prv *Prv) PlaceGridAlgoOrder(req model.PlaceGridAlgoOrderRequest, opt ...m
 	return details, responseBody, err
 }
 
+func (prv *Prv) StopGridAlgoOrder(req model.StopGridAlgoOrderRequest, opt ...model.OptionParameter) (model.StopGridAlgoOrderResponse, []byte, error) {
+	reqUrl := fmt.Sprintf("%s%s", prv.UriOpts.Endpoint, prv.UriOpts.PostStopGridAlgoOrderUri)
+
+	params := url.Values{}
+	params.Set("algoId", req.AlgoId)
+	params.Set("instId", req.InstId)
+	params.Set("algoOrdType", req.AlgoOrdType)
+	params.Set("stopType", req.StopType)
+
+	util.MergeOptionParams(&params, opt...)
+	logger.Info("!!!!!!!", params)
+	logger.Info("!!!!!!!", reqUrl)
+
+	data, responseBody, err := prv.DoAuthRequest(http.MethodPost, reqUrl, &params, nil)
+	if err != nil {
+		logger.Info("!!!!!!! responseBody ", string(responseBody))
+		logger.Info("!!!!!!! data ", string(data))
+		return model.StopGridAlgoOrderResponse{}, responseBody, err
+	}
+
+	logger.Info("responseBody", string(responseBody))
+	logger.Info("data", string(data))
+
+	details, err := prv.UnmarshalOpts.StopGridAlgoOrderResponseUnmarshaler(data)
+
+	return details, responseBody, err
+}
+
 func (prv *Prv) DoSignParam(httpMethod, apiUri, apiSecret, reqBody string) (signStr, timestamp string) {
 	timestamp = time.Now().UTC().Format("2006-01-02T15:04:05.000Z") //iso time style
 	payload := fmt.Sprintf("%s%s%s%s", timestamp, strings.ToUpper(httpMethod), apiUri, reqBody)
@@ -233,6 +261,7 @@ func (prv *Prv) DoAuthRequest(httpMethod, reqUrl string, params *url.Values, hea
 		reqBody, _ := util.ValuesToJson(*params)
 		reqBodyStr = string(reqBody)
 	}
+	logger.Info("!!!!!!! reqBodyStr ", string(reqBodyStr))
 
 	_url, _ := url.Parse(reqUrl)
 	reqUri = _url.RequestURI()
@@ -242,6 +271,7 @@ func (prv *Prv) DoAuthRequest(httpMethod, reqUrl string, params *url.Values, hea
 	headers = map[string]string{
 		"Content-Type": "application/json; charset=UTF-8",
 		//"Accept":               "application/json",
+		"x-simulated-trading":  "1",
 		"OK-ACCESS-KEY":        prv.apiOpts.Key,
 		"OK-ACCESS-PASSPHRASE": prv.apiOpts.Passphrase,
 		"OK-ACCESS-SIGN":       signStr,

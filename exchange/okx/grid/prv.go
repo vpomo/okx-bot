@@ -18,3 +18,8 @@ func (prv *PrvApi) PlaceGridAlgoOrder(req model.PlaceGridAlgoOrderRequest) (mode
 	details, respBody, err := prv.Prv.PlaceGridAlgoOrder(req)
 	return details, respBody, err
 }
+
+func (prv *PrvApi) StopGridAlgoOrder(req model.StopGridAlgoOrderRequest) (model.StopGridAlgoOrderResponse, []byte, error) {
+	details, respBody, err := prv.Prv.StopGridAlgoOrder(req)
+	return details, respBody, err
+}

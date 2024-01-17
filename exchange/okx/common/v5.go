@@ -34,6 +34,7 @@ func New() *OKxV5 {
 			GetPositionsUri:           "/api/v5/account/positions",
 			GetExchangeInfoUri:        "/api/v5/public/instruments",
 			PostPlaceGridAlgoOrderUri: "/api/v5/tradingBot/grid/order-algo",
+			PostStopGridAlgoOrderUri:  "/api/v5/tradingBot/grid/stop-order-algo",
 			PostComputeMinInvestment:  "/api/v5/tradingBot/grid/min-investment",
 			GetAlgoOrderDetails:       "/api/v5/tradingBot/grid/orders-algo-details",
 		},
@@ -54,6 +55,7 @@ func New() *OKxV5 {
 			GetCompMinInvestResponseUnmarshaler:    unmarshaler.UnmarshalGetComputeMinInvestmentResponse,
 			GetAlgoOrderDetailsResponseUnmarshaler: unmarshaler.UnmarshalGetAlgoOrderDetailsResponse,
 			PlaceGridAlgoOrderResponseUnmarshaler:  unmarshaler.UnmarshalPostPlaceGridAlgoOrder,
+			StopGridAlgoOrderResponseUnmarshaler:   unmarshaler.UnmarshalPostStopGridAlgoOrder,
 		},
 	}
 

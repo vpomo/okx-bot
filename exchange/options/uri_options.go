@@ -14,6 +14,7 @@ type UriOptions struct {
 	GetPositionsUri           string
 	GetExchangeInfoUri        string
 	PostPlaceGridAlgoOrderUri string
+	PostStopGridAlgoOrderUri  string
 	PostComputeMinInvestment  string
 	GetAlgoOrderDetails       string
 }

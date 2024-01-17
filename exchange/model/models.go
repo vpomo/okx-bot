@@ -284,3 +284,20 @@ type PlaceGridAlgoOrderResponse struct {
 	SMsg        string `json:"s_msg,omitempty"`
 	Tag         string `json:"tag,omitempty"`
 }
+
+// https://www.okx.com/docs-v5/en/#order-book-trading-grid-trading-post-stop-grid-algo-order
+// POST /api/v5/tradingBot/grid/stop-order-algo
+type StopGridAlgoOrderRequest struct {
+	AlgoId      string `json:"algo_id,omitempty"`
+	InstId      string `json:"inst_id,omitempty"`
+	AlgoOrdType string `json:"algo_ord_type,omitempty"`
+	StopType    string `json:"stop_type,omitempty"`
+}
+
+type StopGridAlgoOrderResponse struct {
+	AlgoId      string `json:"algo_id,omitempty"`
+	AlgoClOrdId string `json:"algo_cl_ord_id,omitempty"`
+	SCode       string `json:"s_code,omitempty"`
+	SMsg        string `json:"s_msg,omitempty"`
+	Tag         string `json:"tag,omitempty"`
+}

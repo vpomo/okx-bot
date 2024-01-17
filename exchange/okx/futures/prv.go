@@ -41,6 +41,46 @@ func (prv *PrvApi) GetFuturesAccount(coin string) (map[string]model.FuturesAccou
 	return acc, responseBody, err
 }
 
+//func (prv *PrvApi) PlaceOrder(pair model.CurrencyPair, qty, price float64, side model.OrderSide, orderTy model.OrderType, opts ...model.OptionParameter) (*model.Order, []byte, error) {
+//	reqUrl := fmt.Sprintf("%s%s", prv.UriOpts.Endpoint, prv.UriOpts.NewOrderUri)
+//	params := url.Values{}
+//
+//	params.Set("instId", pair.Symbol)
+//	params.Set("tdMode", "isolated")
+//	//params.Set("posSide", "")
+//	params.Set("ordType", adaptOrderTypeToSym(orderTy))
+//	params.Set("px", util.FloatToString(price, pair.PricePrecision))
+//	params.Set("sz", util.FloatToString(qty, pair.QtyPrecision))
+//
+//	side2, posSide := adaptOrderSideToSym(side)
+//	params.Set("side", side2)
+//	if posSide != "" {
+//		params.Set("posSide", posSide)
+//	}
+//
+//	util.MergeOptionParams(&params, opts...)
+//
+//	data, responseBody, err := prv.DoAuthRequest(http.MethodPost, reqUrl, &params, nil)
+//	if err != nil {
+//		logger.Errorf("[CreateOrder] err=%s, response=%s", err.Error(), string(data))
+//		return nil, responseBody, err
+//	}
+//
+//	ord, err := prv.UnmarshalOpts.CreateOrderResponseUnmarshaler(data)
+//	if err != nil {
+//		return nil, responseBody, err
+//	}
+//
+//	ord.Pair = pair
+//	ord.Price = price
+//	ord.Qty = qty
+//	ord.Side = side
+//	ord.OrderTy = orderTy
+//	ord.Status = model.OrderStatus_Pending
+//
+//	return ord, responseBody, err
+//}
+
 func (prv *PrvApi) GetPositions(pair model.CurrencyPair, opts ...model.OptionParameter) ([]model.FuturesPosition, []byte, error) {
 	reqUrl := fmt.Sprintf("%s%s", prv.OKxV5.UriOpts.Endpoint, prv.OKxV5.UriOpts.GetPositionsUri)
 	params := url.Values{}
