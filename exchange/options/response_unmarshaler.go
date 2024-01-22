@@ -19,6 +19,7 @@ type GetCompMinInvestResponseUnmarshaler func([]byte) (model.ComputeMinInvestmen
 type GetAlgoOrderDetailsResponseUnmarshaler func([]byte) (model.GridAlgoOrderDetailsResponse, error)
 type PlaceGridAlgoOrderResponseUnmarshaler func([]byte) (model.PlaceGridAlgoOrderResponse, error)
 type StopGridAlgoOrderResponseUnmarshaler func([]byte) (model.StopGridAlgoOrderResponse, error)
+type PlaceOrderResponseUnmarshaler func([]byte) (model.PlaceOrderResponse, error)
 
 type UnmarshalerOptions struct {
 	ResponseUnmarshaler                    ResponseUnmarshaler
@@ -38,6 +39,7 @@ type UnmarshalerOptions struct {
 	GetAlgoOrderDetailsResponseUnmarshaler GetAlgoOrderDetailsResponseUnmarshaler
 	PlaceGridAlgoOrderResponseUnmarshaler  PlaceGridAlgoOrderResponseUnmarshaler
 	StopGridAlgoOrderResponseUnmarshaler   StopGridAlgoOrderResponseUnmarshaler
+	PlaceOrderResponseUnmarshaler          PlaceOrderResponseUnmarshaler
 }
 
 type UnmarshalerOption func(options *UnmarshalerOptions)

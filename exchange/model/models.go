@@ -301,3 +301,54 @@ type StopGridAlgoOrderResponse struct {
 	SMsg        string `json:"s_msg,omitempty"`
 	Tag         string `json:"tag,omitempty"`
 }
+
+// https://www.okx.com/docs-v5/en/#order-book-trading-trade-post-place-order
+// POST /api/v5/trade/order
+type PlaceOrderRequest struct {
+	InstId         string           `json:"inst_id,omitempty"`
+	TdMode         string           `json:"td_mode,omitempty"`
+	Ccy            string           `json:"ccy,omitempty"`
+	ClOrdId        string           `json:"cl_ord_id,omitempty"`
+	Tag            string           `json:"tag,omitempty"`
+	Side           string           `json:"side,omitempty"`
+	PosSide        string           `json:"pos_side,omitempty"`
+	OrdType        string           `json:"ord_type,omitempty"`
+	Sz             string           `json:"sz,omitempty"`
+	Px             string           `json:"px,omitempty"`
+	PxUsd          string           `json:"px_usd,omitempty"`
+	ReduceOnly     string           `json:"reduce_only,omitempty"`
+	TgtCcy         string           `json:"tgt_ccy,omitempty"`
+	BanAmend       string           `json:"ban_amend,omitempty"`
+	QuickMgnType   string           `json:"quick_mgn_type,omitempty"`
+	StpId          string           `json:"stp_id,omitempty"`
+	StpMode        string           `json:"stp_mode,omitempty"`
+	AttachAlgoOrds []AttachAlgoOrds `json:"attach_algo_ords,omitempty"`
+}
+
+type AttachAlgoOrds struct {
+	AttachAlgoClOrdId    string
+	TpTriggerPx          string
+	TpOrdPx              string
+	SlTriggerPx          string
+	SlOrdPx              string
+	TpTriggerPxType      string
+	SlTriggerPxType      string
+	Sz                   string
+	AmendPxOnTriggerType string
+}
+
+type PlaceOrderResponse struct {
+	Code    string                   `json:"code,omitempty"`
+	Msg     string                   `json:"msg,omitempty"`
+	OutTime string                   `json:"data,omitempty"`
+	InTime  string                   `json:"in_time,omitempty"`
+	Data    []PlaceOrderResponseData `json:"out_time,omitempty"`
+}
+
+type PlaceOrderResponseData struct {
+	OrdId   string
+	ClOrdId string
+	Tag     string
+	SCode   string
+	SMsg    string
+}

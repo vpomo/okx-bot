@@ -2,6 +2,7 @@ package futures
 
 import (
 	"errors"
+	log "github.com/sirupsen/logrus"
 	"okx-bot/exchange/model"
 	"okx-bot/exchange/okx/common"
 	"okx-bot/exchange/options"
@@ -27,6 +28,7 @@ func (f *Swap) GetExchangeInfo() (map[string]model.CurrencyPair, []byte, error) 
 
 func (f *Swap) NewCurrencyPair(baseSym, quoteSym string, opts ...model.OptionParameter) (model.CurrencyPair, error) {
 	currencyPair := f.currencyPairM[baseSym+quoteSym]
+	log.Info("currencyPair", currencyPair)
 	if currencyPair.Symbol == "" {
 		return currencyPair, errors.New("not found currency pair")
 	}

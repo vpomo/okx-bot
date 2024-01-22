@@ -200,6 +200,7 @@ func (prv *Prv) PlaceGridAlgoOrder(req model.PlaceGridAlgoOrderRequest, opt ...m
 
 	data, responseBody, err := prv.DoAuthRequest(http.MethodPost, reqUrl, &params, nil)
 	if err != nil {
+		logger.Errorf("[PlaceOrder] err=%s, response=%s", err.Error(), string(data))
 		return model.PlaceGridAlgoOrderResponse{}, responseBody, err
 	}
 
@@ -221,13 +222,9 @@ func (prv *Prv) StopGridAlgoOrder(req model.StopGridAlgoOrderRequest, opt ...mod
 	params.Set("stopType", req.StopType)
 
 	util.MergeOptionParams(&params, opt...)
-	logger.Info("!!!!!!!", params)
-	logger.Info("!!!!!!!", reqUrl)
 
 	data, responseBody, err := prv.DoAuthRequest(http.MethodPost, reqUrl, &params, nil)
 	if err != nil {
-		logger.Info("!!!!!!! responseBody ", string(responseBody))
-		logger.Info("!!!!!!! data ", string(data))
 		return model.StopGridAlgoOrderResponse{}, responseBody, err
 	}
 
@@ -235,6 +232,33 @@ func (prv *Prv) StopGridAlgoOrder(req model.StopGridAlgoOrderRequest, opt ...mod
 	logger.Info("data", string(data))
 
 	details, err := prv.UnmarshalOpts.StopGridAlgoOrderResponseUnmarshaler(data)
+
+	return details, responseBody, err
+}
+
+func (prv *Prv) PlaceOrder(req model.PlaceOrderRequest, opt ...model.OptionParameter) (*model.Order, []byte, error) {
+	reqUrl := fmt.Sprintf("%s%s", prv.UriOpts.Endpoint, prv.UriOpts.NewOrderUri)
+
+	params := url.Values{}
+	params.Set("instId", req.InstId)
+	params.Set("tdMode", req.TdMode)
+	params.Set("side", req.Side)
+	params.Set("posSide", req.PosSide)
+	params.Set("ordType", req.OrdType)
+	params.Set("sz", req.Sz)
+
+	util.MergeOptionParams(&params, opt...)
+
+	data, responseBody, err := prv.DoAuthRequest(http.MethodPost, reqUrl, &params, nil)
+	if err != nil {
+		return nil, responseBody, err
+	}
+
+	logger.Info("responseBody", string(responseBody))
+	logger.Info("data", string(data))
+
+	details, err := prv.UnmarshalOpts.CreateOrderResponseUnmarshaler(data)
+	logger.Info("details", details)
 
 	return details, responseBody, err
 }
@@ -261,7 +285,6 @@ func (prv *Prv) DoAuthRequest(httpMethod, reqUrl string, params *url.Values, hea
 		reqBody, _ := util.ValuesToJson(*params)
 		reqBodyStr = string(reqBody)
 	}
-	logger.Info("!!!!!!! reqBodyStr ", string(reqBodyStr))
 
 	_url, _ := url.Parse(reqUrl)
 	reqUri = _url.RequestURI()

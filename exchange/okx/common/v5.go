@@ -56,6 +56,7 @@ func New() *OKxV5 {
 			GetAlgoOrderDetailsResponseUnmarshaler: unmarshaler.UnmarshalGetAlgoOrderDetailsResponse,
 			PlaceGridAlgoOrderResponseUnmarshaler:  unmarshaler.UnmarshalPostPlaceGridAlgoOrder,
 			StopGridAlgoOrderResponseUnmarshaler:   unmarshaler.UnmarshalPostStopGridAlgoOrder,
+			PlaceOrderResponseUnmarshaler:          unmarshaler.UnmarshalPlaceOrder,
 		},
 	}
 

@@ -645,6 +645,61 @@ func (un *RespUnmarshaler) UnmarshalPostPlaceGridAlgoOrder(data []byte) (model.P
 	return *details, err
 }
 
+func (un *RespUnmarshaler) UnmarshalPlaceOrder(respPlaceOrderData []byte) (model.PlaceOrderResponse, error) {
+	var placeOrderResponse = new(model.PlaceOrderResponse)
+	var placeOrderResponseData = new(model.PlaceOrderResponseData)
+	logger.Info("********* respPlaceOrderData ", string(respPlaceOrderData))
+
+	_, err := jsonparser.ArrayEach(respPlaceOrderData, func(value []byte, dataType jsonparser.ValueType, offset int, err error) {
+		err = jsonparser.ObjectEach(value, func(key []byte, respData []byte, dataType jsonparser.ValueType, offset int) error {
+			detailsStr := string(respData)
+			logger.Info("!!!!!    key ", string(key), " = ", detailsStr)
+			switch string(key) {
+			case "code":
+				placeOrderResponse.Code = detailsStr
+			case "msg":
+				placeOrderResponse.Msg = detailsStr
+			case "inTime":
+				placeOrderResponse.InTime = detailsStr
+			case "outTime":
+				placeOrderResponse.OutTime = detailsStr
+			case "data":
+				_, _ = jsonparser.ArrayEach(respData, func(value []byte, dataType jsonparser.ValueType, offset int, err error) {
+					err = jsonparser.ObjectEach(value, func(key []byte, respData []byte, dataType jsonparser.ValueType, offset int) error {
+						detailsStr := string(respData)
+						switch string(key) {
+						case "ordId":
+							placeOrderResponseData.OrdId = detailsStr
+						case "clOrdId":
+							placeOrderResponseData.ClOrdId = detailsStr
+						case "tag":
+							placeOrderResponseData.Tag = detailsStr
+						case "sCode":
+							placeOrderResponseData.SCode = detailsStr
+						case "sMsg":
+							logger.Info("++++++++++ sMsg - ", detailsStr)
+							placeOrderResponseData.SMsg = detailsStr
+						}
+						return err
+					})
+					if err != nil {
+						return
+					}
+					placeOrderResponse.Data = append(placeOrderResponse.Data, *placeOrderResponseData)
+				})
+			}
+			return err
+		})
+
+		if err != nil {
+			return
+		}
+	})
+
+	logger.Info("@@@@@@@@ placeOrderResponse ", *placeOrderResponse)
+	return *placeOrderResponse, err
+}
+
 func (un *RespUnmarshaler) UnmarshalPostStopGridAlgoOrder(data []byte) (model.StopGridAlgoOrderResponse, error) {
 	var details = new(model.StopGridAlgoOrderResponse)
 

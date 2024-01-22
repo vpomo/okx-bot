@@ -25,3 +25,14 @@ func (f *IsolatedPrvApi) CreateOrder(pair model.CurrencyPair, qty, price float64
 
 	return f.Prv.CreateOrder(pair, qty, price, side, orderTy, opts...)
 }
+
+func (f *IsolatedPrvApi) PlaceOrder(order model.PlaceOrderRequest, opts ...model.OptionParameter) (*model.Order, []byte, error) {
+
+	opts = append(opts,
+		model.OptionParameter{
+			Key:   "tdMode",
+			Value: "isolated",
+		})
+
+	return f.Prv.PlaceOrder(order, opts...)
+}
