@@ -4,11 +4,12 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/buger/jsonparser"
-	"github.com/spf13/cast"
 	"okx-bot/exchange/logger"
 	"okx-bot/exchange/model"
 	"time"
+
+	"github.com/buger/jsonparser"
+	"github.com/spf13/cast"
 )
 
 type RespUnmarshaler struct {
@@ -333,6 +334,37 @@ func (un *RespUnmarshaler) UnmarshalGetPositionsResponse(data []byte) ([]model.F
 	})
 
 	return positions, err
+}
+
+func (un *RespUnmarshaler) UnmarshalGetPositionsHisotoryResponse(data []byte) ([]model.FuturesPositionHistory, error) {
+	var (
+		positionsHistory []model.FuturesPositionHistory
+		err              error
+	)
+
+	_, err = jsonparser.ArrayEach(data, func(posData []byte, dataType jsonparser.ValueType, offset int, err error) {
+		var posHistory model.FuturesPositionHistory
+		_ = jsonparser.ObjectEach(posData, func(key []byte, value []byte, dataType jsonparser.ValueType, offset int) error {
+			valStr := string(value)
+			switch string(key) {
+			case "closeAvgPx":
+				posHistory.CloseAvgPx = cast.ToFloat64(valStr)
+			case "openAvgPx":
+				posHistory.OpenAvgPx = cast.ToFloat64(valStr)
+			case "fee":
+				posHistory.Fee = cast.ToFloat64(valStr)
+			case "pnl":
+				posHistory.Pnl = cast.ToFloat64(valStr)
+			case "pnlRatio":
+				posHistory.PnlRatio = cast.ToFloat64(valStr)
+			case "lever":
+				posHistory.Lever = cast.ToFloat64(valStr)
+			}
+			return nil
+		})
+		positionsHistory = append(positionsHistory, posHistory)
+	})
+	return positionsHistory, err
 }
 
 func (un *RespUnmarshaler) UnmarshalGetExchangeInfoResponse(data []byte) (map[string]model.CurrencyPair, error) {

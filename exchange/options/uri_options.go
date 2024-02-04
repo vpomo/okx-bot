@@ -12,6 +12,7 @@ type UriOptions struct {
 	NewOrderUri               string
 	GetAccountUri             string
 	GetPositionsUri           string
+	GetPositionsHistoryUri    string
 	GetExchangeInfoUri        string
 	PostPlaceGridAlgoOrderUri string
 	PostStopGridAlgoOrderUri  string
@@ -84,6 +85,12 @@ func WithGetAccountUri(uri string) UriOption {
 func WithGetPositionsUri(uri string) UriOption {
 	return func(c *UriOptions) {
 		c.GetPositionsUri = uri
+	}
+}
+
+func WithGetPositionsHistoryUri(uri string) UriOption {
+	return func(c *UriOptions) {
+		c.GetPositionsHistoryUri = uri
 	}
 }
 

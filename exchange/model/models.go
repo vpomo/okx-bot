@@ -142,6 +142,15 @@ type FuturesPosition struct {
 	Lever    float64      `json:"lever,omitempty"`     //杠杆倍数
 }
 
+type FuturesPositionHistory struct {
+	CloseAvgPx float64 `json:"close_avg_px,omitempty"`
+	OpenAvgPx  float64 `json:"open_avg_px,omitempty"`
+	Fee        float64 `json:"fee,omitempty"`
+	Pnl        float64 `json:"pnl,omitempty"`
+	PnlRatio   float64 `json:"pnl_ration,omitempty"`
+	Lever      float64 `json:"lever,omitempty"` //杠杆倍数
+}
+
 type FuturesAccount struct {
 	Coin      string  `json:"coin,omitempty"` //币种
 	Eq        float64 `json:"eq,omitempty"`   //总权益

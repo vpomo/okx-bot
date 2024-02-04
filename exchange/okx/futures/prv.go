@@ -54,6 +54,19 @@ func (prv *PrvApi) GetPositions(pair model.CurrencyPair, opts ...model.OptionPar
 	return positions, responseBody, err
 }
 
+func (prv *PrvApi) GetPositionsHistory(pair model.CurrencyPair, opts ...model.OptionParameter) ([]model.FuturesPositionHistory, []byte, error) {
+	reqUrl := fmt.Sprintf("%s%s", prv.OKxV5.UriOpts.Endpoint, prv.OKxV5.UriOpts.GetPositionsHistoryUri)
+	params := url.Values{}
+	params.Set("instId", pair.Symbol)
+	util.MergeOptionParams(&params, opts...)
+	data, responseBody, err := prv.DoAuthRequest(http.MethodGet, reqUrl, &params, nil)
+	if err != nil {
+		return nil, responseBody, err
+	}
+	positionsHistory, err := prv.OKxV5.UnmarshalOpts.GetPositionsHistoryResponseUnmarshaler(data)
+	return positionsHistory, responseBody, err
+}
+
 func (prv *PrvApi) GetHistoryOrders(pair model.CurrencyPair, opt ...model.OptionParameter) ([]model.Order, []byte, error) {
 	opt = append(opt, model.OptionParameter{
 		Key:   "instType",
