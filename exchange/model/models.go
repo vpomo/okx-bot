@@ -143,12 +143,12 @@ type FuturesPosition struct {
 }
 
 type FuturesPositionHistory struct {
-	CloseAvgPx float64 `json:"close_avg_px,omitempty"`
-	OpenAvgPx  float64 `json:"open_avg_px,omitempty"`
+	CloseAvgPx float64 `json:"close_avg_px,omitempty"` //平仓平均价格
+	OpenAvgPx  float64 `json:"open_avg_px,omitempty"`  //开仓平均价格
 	Fee        float64 `json:"fee,omitempty"`
-	Pnl        float64 `json:"pnl,omitempty"`
-	PnlRatio   float64 `json:"pnl_ration,omitempty"`
-	Lever      float64 `json:"lever,omitempty"` //杠杆倍数
+	Pnl        float64 `json:"pnl,omitempty"`        //损益
+	PnlRatio   float64 `json:"pnl_ration,omitempty"` //损益比率
+	Lever      float64 `json:"lever,omitempty"`      //杠杆倍数
 }
 
 type FuturesAccount struct {
