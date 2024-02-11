@@ -59,10 +59,11 @@ func (prv *PrvApi) GetPositionsHistory(request model.FuturesPositionHistoryReque
 	params := url.Values{}
 	params.Set("instType", request.InstType)
 	params.Set("instId", request.InstId)
-	params.Set("nMode", request.MgnMode)
+	params.Set("mgnMode", request.MgnMode)
 	params.Set("type", request.Type)
 	params.Set("posId", request.PosId)
 	params.Set("after", request.After)
+	params.Set("before", request.Before)
 	params.Set("limit", request.Limit)
 	util.MergeOptionParams(&params, opts...)
 	data, responseBody, err := prv.DoAuthRequest(http.MethodGet, reqUrl, &params, nil)
