@@ -142,6 +142,7 @@ type FuturesPosition struct {
 	Lever    float64      `json:"lever,omitempty"`     //杠杆倍数
 }
 
+// https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-positions-history
 type FuturesPositionHistory struct {
 	InstId      string `json:"inst_id,omitempty"`
 	Direction   string `json:"direction,omitempty"`
