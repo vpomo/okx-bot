@@ -4,12 +4,14 @@ import (
 	"fmt"
 	"github.com/joho/godotenv"
 	log "github.com/sirupsen/logrus"
+	"github.com/spf13/cast"
 	"okx-bot/exchange/model"
 	"okx-bot/exchange/okx"
 	"okx-bot/exchange/options"
 	"okx-bot/signalview"
 	"strconv"
 	"strings"
+	"time"
 )
 
 func main() {
@@ -93,11 +95,26 @@ func main() {
 		options.WithApiSecretKey(envParams["okx_api_secret_key"]),
 		options.WithPassphrase(envParams["okx_api_passphrase"]))
 
-	newOrder, _, err := okxSwapPrvApi.Cross.PlaceOrder(*orderRequest)
+	//newOrder, _, err := okxSwapPrvApi.Cross.PlaceOrder(*orderRequest)
+	//if err != nil {
+	//	panic(err)
+	//}
+	//log.Info("ordId = ", newOrder.Id)
+
+	posHistoryRequest := new(model.FuturesPositionHistoryRequest)
+	posHistoryRequest.InstId = "BTC-USDT-SWAP"
+	posHistory, _, err := okxSwapPrvApi.GetPositionsHistory(*posHistoryRequest)
 	if err != nil {
 		panic(err)
 	}
-	log.Info("ordId", newOrder.Id)
+	log.Info("posHistory = ", posHistory)
+	log.Info("posHistory.InstId = ", posHistory[0].InstId)
+	log.Info("posHistory.Direction = ", posHistory[0].Direction)
+	log.Info("posHistory.Lever = ", posHistory[0].Lever)
+	log.Info("posHistory.CTime = ", time.Unix(cast.ToInt64(posHistory[0].CTime)/1000, 0).Local())
+	log.Info("posHistory.UTime = ", time.Unix(cast.ToInt64(posHistory[0].UTime)/1000, 0).Local())
+	log.Info("posHistory.OpenAvgPx = ", posHistory[0].OpenAvgPx)
+	log.Info("posHistory.CloseAvgPx = ", posHistory[0].CloseAvgPx)
 
 	//minInvestRequest := new(model.ComputeMinInvestmentRequest)
 	//minInvestRequest.InstId = "BTC-USDT-SWAP"

@@ -143,11 +143,16 @@ type FuturesPosition struct {
 }
 
 type FuturesPositionHistory struct {
-	Direction   string  `json:"direction,omitempty"`
-	Type        int8    `json:"type,omitempty"`
-	CTime       int32   `json:"c_time,omitempty"`
-	UTime       int32   `json:"u_time,omitempty"`
-	RealizedPnl float64 `json:"realized_pnl,omitempty"` //已实现的损益
+	InstId      string `json:"inst_id,omitempty"`
+	Direction   string `json:"direction,omitempty"`
+	Lever       string `json:"lever,omitempty"`
+	Type        string `json:"type,omitempty"`
+	CTime       string `json:"c_time,omitempty"`
+	UTime       string `json:"u_time,omitempty"`
+	OpenAvgPx   string `json:"open_avg_px,omitempty"`
+	CloseAvgPx  string `json:"close_avg_px,omitempty"`
+	Pnl         string `json:"pnl,omitempty"`
+	RealizedPnl string `json:"realized_pnl,omitempty"`
 }
 
 type FuturesPositionHistoryRequest struct {

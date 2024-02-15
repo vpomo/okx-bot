@@ -347,16 +347,26 @@ func (un *RespUnmarshaler) UnmarshalGetPositionsHisotoryResponse(data []byte) ([
 		_ = jsonparser.ObjectEach(posData, func(key []byte, value []byte, dataType jsonparser.ValueType, offset int) error {
 			valStr := string(value)
 			switch string(key) {
+			case "instId":
+				posHistory.InstId = cast.ToString(valStr)
 			case "direction":
 				posHistory.Direction = cast.ToString(valStr)
+			case "lever":
+				posHistory.Lever = cast.ToString(valStr)
 			case "type":
-				posHistory.Type = cast.ToInt8(valStr)
+				posHistory.Type = cast.ToString(valStr)
 			case "cTime":
-				posHistory.CTime = cast.ToInt32(valStr)
+				posHistory.CTime = cast.ToString(valStr)
 			case "uTime":
-				posHistory.UTime = cast.ToInt32(valStr)
+				posHistory.UTime = cast.ToString(valStr)
+			case "openAvgPx":
+				posHistory.OpenAvgPx = cast.ToString(valStr)
+			case "closeAvgPx":
+				posHistory.CloseAvgPx = cast.ToString(valStr)
+			case "pnl":
+				posHistory.Pnl = cast.ToString(valStr)
 			case "realizedPnl":
-				posHistory.RealizedPnl = cast.ToFloat64(valStr)
+				posHistory.RealizedPnl = cast.ToString(valStr)
 			}
 			return nil
 		})
