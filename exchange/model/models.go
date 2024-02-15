@@ -142,6 +142,25 @@ type FuturesPosition struct {
 	Lever    float64      `json:"lever,omitempty"`     //杠杆倍数
 }
 
+type FuturesPositionHistory struct {
+	Direction   string  `json:"direction,omitempty"`
+	Type        int8    `json:"type,omitempty"`
+	CTime       int32   `json:"c_time,omitempty"`
+	UTime       int32   `json:"u_time,omitempty"`
+	RealizedPnl float64 `json:"realized_pnl,omitempty"` //已实现的损益
+}
+
+type FuturesPositionHistoryRequest struct {
+	InstType string `json:"instType,omitempty"`
+	InstId   string `json:"instId,omitempty"`
+	MgnMode  string `json:"mgnMode,omitempty"`
+	Type     string `json:"type,omitempty"`
+	PosId    string `json:"posId,omitempty"`
+	After    string `json:"after,omitempty"`
+	Before   string `json:"before,omitempty"`
+	Limit    string `json:"limit,omitempty"`
+}
+
 type FuturesAccount struct {
 	Coin      string  `json:"coin,omitempty"` //币种
 	Eq        float64 `json:"eq,omitempty"`   //总权益
