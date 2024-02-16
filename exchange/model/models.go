@@ -144,16 +144,16 @@ type FuturesPosition struct {
 
 // https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-positions-history
 type FuturesPositionHistory struct {
-	InstId      string `json:"inst_id,omitempty"`
-	Direction   string `json:"direction,omitempty"`
-	Lever       string `json:"lever,omitempty"`
-	Type        string `json:"type,omitempty"`
-	CTime       string `json:"c_time,omitempty"`
-	UTime       string `json:"u_time,omitempty"`
-	OpenAvgPx   string `json:"open_avg_px,omitempty"`
-	CloseAvgPx  string `json:"close_avg_px,omitempty"`
-	Pnl         string `json:"pnl,omitempty"`
-	RealizedPnl string `json:"realized_pnl,omitempty"`
+	InstId      string    `json:"inst_id,omitempty"`
+	Direction   string    `json:"direction,omitempty"`
+	Lever       float32   `json:"lever,omitempty"`
+	Type        string    `json:"type,omitempty"`
+	CTime       time.Time `json:"c_time,omitempty"`
+	UTime       time.Time `json:"u_time,omitempty"`
+	OpenAvgPx   float64   `json:"open_avg_px,omitempty"`
+	CloseAvgPx  float64   `json:"close_avg_px,omitempty"`
+	Pnl         float64   `json:"pnl,omitempty"`
+	RealizedPnl float64   `json:"realized_pnl,omitempty"`
 }
 
 type FuturesPositionHistoryRequest struct {

@@ -352,21 +352,21 @@ func (un *RespUnmarshaler) UnmarshalGetPositionsHisotoryResponse(data []byte) ([
 			case "direction":
 				posHistory.Direction = cast.ToString(valStr)
 			case "lever":
-				posHistory.Lever = cast.ToString(valStr)
+				posHistory.Lever = cast.ToFloat32(valStr)
 			case "type":
 				posHistory.Type = cast.ToString(valStr)
 			case "cTime":
-				posHistory.CTime = cast.ToString(valStr)
+				posHistory.CTime = time.Unix(cast.ToInt64(valStr)/1000, 0).Local()
 			case "uTime":
-				posHistory.UTime = cast.ToString(valStr)
+				posHistory.UTime = time.Unix(cast.ToInt64(valStr)/1000, 0).Local()
 			case "openAvgPx":
-				posHistory.OpenAvgPx = cast.ToString(valStr)
+				posHistory.OpenAvgPx = cast.ToFloat64(valStr)
 			case "closeAvgPx":
-				posHistory.CloseAvgPx = cast.ToString(valStr)
+				posHistory.CloseAvgPx = cast.ToFloat64(valStr)
 			case "pnl":
-				posHistory.Pnl = cast.ToString(valStr)
+				posHistory.Pnl = cast.ToFloat64(valStr)
 			case "realizedPnl":
-				posHistory.RealizedPnl = cast.ToString(valStr)
+				posHistory.RealizedPnl = cast.ToFloat64(valStr)
 			}
 			return nil
 		})
