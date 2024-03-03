@@ -21,6 +21,7 @@ type GetAlgoOrderDetailsResponseUnmarshaler func([]byte) (model.GridAlgoOrderDet
 type PlaceGridAlgoOrderResponseUnmarshaler func([]byte) (model.PlaceGridAlgoOrderResponse, error)
 type StopGridAlgoOrderResponseUnmarshaler func([]byte) (model.StopGridAlgoOrderResponse, error)
 type PlaceOrderResponseUnmarshaler func([]byte) (model.PlaceOrderResponse, error)
+type AmendOrderResponseUmarshaler func([]byte) (model.AmendOrderResponse, error)
 
 type UnmarshalerOptions struct {
 	ResponseUnmarshaler                    ResponseUnmarshaler
@@ -32,6 +33,7 @@ type UnmarshalerOptions struct {
 	GetPendingOrdersResponseUnmarshaler    GetPendingOrdersResponseUnmarshaler
 	GetHistoryOrdersResponseUnmarshaler    GetHistoryOrdersResponseUnmarshaler
 	CancelOrderResponseUnmarshaler         CancelOrderResponseUnmarshaler
+	AmendOrderResponseUmarshaler           AmendOrderResponseUmarshaler
 	GetAccountResponseUnmarshaler          GetAccountResponseUnmarshaler
 	GetPositionsResponseUnmarshaler        GetPositionsResponseUnmarshaler
 	GetPositionsHistoryResponseUnmarshaler GetPositionsHistoryResponseUnmarshaler
