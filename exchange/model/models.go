@@ -362,18 +362,51 @@ type AttachAlgoOrds struct {
 	AmendPxOnTriggerType string
 }
 
+type OrderResponse struct {
+	Code    string `json:"code,omitempty"`
+	Msg     string `json:"msg,omitempty"`
+	OutTime string `json:"out_time,omitempty"`
+	InTime  string `json:"in_time,omitempty"`
+}
+
+type OrderResponseData struct {
+	OrdId   string
+	ClOrdId string
+	SCode   string
+	SMsg    string
+}
+
 type PlaceOrderResponse struct {
-	Code    string                   `json:"code,omitempty"`
-	Msg     string                   `json:"msg,omitempty"`
-	OutTime string                   `json:"data,omitempty"`
-	InTime  string                   `json:"in_time,omitempty"`
-	Data    []PlaceOrderResponseData `json:"out_time,omitempty"`
+	OrderResponse
+	Data []PlaceOrderResponseData `json:"data,omitempty"`
 }
 
 type PlaceOrderResponseData struct {
-	OrdId   string
-	ClOrdId string
-	Tag     string
-	SCode   string
-	SMsg    string
+	OrderResponseData
+	Tag string
+}
+
+// https://www.okx.com/docs-v5/en/#order-book-trading-trade-post-amend-order
+// POST /api/v5/trade/amend-order
+type AmendOrderRequest struct {
+	InstId         string           `json:"inst_id,omitempty"`
+	CxlOnFail      string           `json:"cxl_on_fail,omitempty"`
+	OrdId          string           `json:"ord_id,omitempty"`
+	ClOrdId        string           `json:"cl_ord_id,omitempty"`
+	ReqId          string           `json:"req_di,omitempty"`
+	NewSz          string           `json:"new_sz,omitempty"`
+	NewPx          string           `json:"new_px,omitempty"`
+	NewPxUsd       string           `json:"new_px_used,omitempty"`
+	NewPxVol       string           `json:"new_px_vol,omitempty"`
+	AttachAlgoOrds []AttachAlgoOrds `json:"attach_algo_ords,omitempty"`
+}
+
+type AmendOrderResponse struct {
+	OrderResponse
+	Data []AmendOrderResponseData `json:"data,omitempty"`
+}
+
+type AmendOrderResponseData struct {
+	OrderResponseData
+	ReqId string
 }
