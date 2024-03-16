@@ -2,14 +2,15 @@ package main
 
 import (
 	"fmt"
-	"github.com/joho/godotenv"
-	log "github.com/sirupsen/logrus"
 	"okx-bot/exchange/model"
 	"okx-bot/exchange/okx"
 	"okx-bot/exchange/options"
 	"okx-bot/signalview"
 	"strconv"
 	"strings"
+
+	"github.com/joho/godotenv"
+	log "github.com/sirupsen/logrus"
 )
 
 func main() {
@@ -82,39 +83,52 @@ func main() {
 	//log.Info("order2: ", order2)
 
 	orderRequest := new(model.PlaceOrderRequest)
-	orderRequest.InstId = "BTC-USDT-SWAP"
-	orderRequest.TdMode = "isolated"
-	orderRequest.Side = "sell"
-	orderRequest.OrdType = "market"
-	orderRequest.Sz = "3"
+	orderRequest.InstId = "SOL-USDT"
+	orderRequest.TdMode = "cash"
+	orderRequest.Side = "buy"
+	orderRequest.OrdType = "limit"
+	orderRequest.Sz = "1"
+	orderRequest.Px = "1"
 
 	okxSwapPrvApi := OKx.Futures.NewPrvApi(
 		options.WithApiKey(envParams["okx_api_key"]),
 		options.WithApiSecretKey(envParams["okx_api_secret_key"]),
 		options.WithPassphrase(envParams["okx_api_passphrase"]))
 
-	//newOrder, _, err := okxSwapPrvApi.Cross.PlaceOrder(*orderRequest)
-	//if err != nil {
-	//	panic(err)
-	//}
-	//log.Info("ordId = ", newOrder.Id)
-
-	posHistoryRequest := new(model.FuturesPositionHistoryRequest)
-	posHistoryRequest.InstId = "BTC-USDT-SWAP"
-	posHistory, _, err := okxSwapPrvApi.GetPositionsHistory(*posHistoryRequest)
+	newOrder, _, err := okxSwapPrvApi.Cross.PlaceOrder(*orderRequest)
 	if err != nil {
 		panic(err)
 	}
-	log.Info("posHistory = ", posHistory)
-	log.Info("posHistory.InstId = ", posHistory[0].InstId)
-	log.Info("posHistory.Direction = ", posHistory[0].Direction)
-	log.Info("posHistory.Lever = ", posHistory[0].Lever)
-	log.Info("posHistory.CTime = ", posHistory[0].CTime)
-	log.Info("posHistory.UTime = ", posHistory[0].UTime)
-	log.Info("posHistory.OpenAvgPx = ", posHistory[0].OpenAvgPx)
-	log.Info("posHistory.CloseAvgPx = ", posHistory[0].CloseAvgPx)
-	log.Info("posHistory.Pnl = ", posHistory[0].Pnl)
-	log.Info("posHistory.RealizedPnl = ", posHistory[0].RealizedPnl)
+	log.Info("ordId = ", newOrder.Id)
+
+	amendOrder := new(model.AmendOrderRequest)
+
+	amendOrder.OrdId = newOrder.Id
+	amendOrder.InstId = "SOL-USDT"
+	amendOrder.NewSz = "9"
+
+	order, _, err := okxSwapPrvApi.Cross.AmendOrder(*amendOrder)
+	if err != nil {
+		panic(err)
+	}
+	log.Info("ordId = ", order.Data)
+
+	// posHistoryRequest := new(model.FuturesPositionHistoryRequest)
+	// posHistoryRequest.InstId = "BTC-USDT-SWAP"
+	// posHistory, _, err := okxSwapPrvApi.GetPositionsHistory(*posHistoryRequest)
+	// if err != nil {
+	// 	panic(err)
+	// }
+	// log.Info("posHistory = ", posHistory)
+	// log.Info("posHistory.InstId = ", posHistory[0].InstId)
+	// log.Info("posHistory.Direction = ", posHistory[0].Direction)
+	// log.Info("posHistory.Lever = ", posHistory[0].Lever)
+	// log.Info("posHistory.CTime = ", posHistory[0].CTime)
+	// log.Info("posHistory.UTime = ", posHistory[0].UTime)
+	// log.Info("posHistory.OpenAvgPx = ", posHistory[0].OpenAvgPx)
+	// log.Info("posHistory.CloseAvgPx = ", posHistory[0].CloseAvgPx)
+	// log.Info("posHistory.Pnl = ", posHistory[0].Pnl)
+	// log.Info("posHistory.RealizedPnl = ", posHistory[0].RealizedPnl)
 
 	//minInvestRequest := new(model.ComputeMinInvestmentRequest)
 	//minInvestRequest.InstId = "BTC-USDT-SWAP"

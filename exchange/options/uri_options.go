@@ -10,6 +10,7 @@ type UriOptions struct {
 	GetHistoryOrdersUri       string
 	CancelOrderUri            string
 	NewOrderUri               string
+	AmendOrderUri             string
 	GetAccountUri             string
 	GetPositionsUri           string
 	GetPositionsHistoryUri    string

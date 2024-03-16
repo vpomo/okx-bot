@@ -246,6 +246,7 @@ func (prv *Prv) PlaceOrder(req model.PlaceOrderRequest, opt ...model.OptionParam
 	params.Set("posSide", req.PosSide)
 	params.Set("ordType", req.OrdType)
 	params.Set("sz", req.Sz)
+	params.Set("px", req.Px)
 
 	util.MergeOptionParams(&params, opt...)
 
@@ -258,6 +259,37 @@ func (prv *Prv) PlaceOrder(req model.PlaceOrderRequest, opt ...model.OptionParam
 	logger.Info("data", string(data))
 
 	details, err := prv.UnmarshalOpts.CreateOrderResponseUnmarshaler(data)
+	logger.Info("details", details)
+
+	return details, responseBody, err
+}
+
+func (prv *Prv) AmendOrder(req model.AmendOrderRequest, opt ...model.OptionParameter) (model.AmendOrderResponse, []byte, error) {
+	reqUrl := fmt.Sprintf("%s%s", prv.UriOpts.Endpoint, prv.UriOpts.AmendOrderUri)
+
+	params := url.Values{}
+	params.Set("instId", req.InstId)
+	params.Set("ordId", req.OrdId)
+	params.Set("clOrdId", req.ClOrdId)
+	params.Set("reqId", req.ReqId)
+	params.Set("newSz", req.NewSz)
+	params.Set("newPx", req.NewPx)
+	params.Set("newPxUsd", req.NewPxUsd)
+	params.Set("NewPxVol", req.NewPxVol)
+
+	util.MergeOptionParams(&params, opt...)
+
+	data, responseBody, err := prv.DoAuthRequest(http.MethodPost, reqUrl, &params, nil)
+
+	if err != nil {
+		fmt.Println(err)
+		return model.AmendOrderResponse{}, responseBody, err
+	}
+
+	logger.Info("responseBody", string(responseBody))
+	logger.Info("data", string(data))
+
+	details, err := prv.UnmarshalOpts.AmendOrderResponseUmarshaler(data)
 	logger.Info("details", details)
 
 	return details, responseBody, err
