@@ -1,5 +1,19 @@
 ﻿version: '3.9'
 services:
+  db:
+    container_name: db
+    image: postgres:15
+    environment:
+      POSTGRES_USER: vpomo
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: okx-bot
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    ports:
+      - '5432:5432'
+    volumes:
+      - .:/var/lib/postgresql/data
+    networks:
+      - postgres
   restservice:
     container_name: okx-bot-rest-service
     image: okx-bot-rest-service:1.0.1
@@ -14,20 +28,6 @@ services:
       - db_host=db
     depends_on:
       - db
-    networks:
-      - postgres
-  db:
-    container_name: db
-    image: postgres:15
-    environment:
-      POSTGRES_USER: vpomo
-      POSTGRES_PASSWORD: admin
-      POSTGRES_DB: okx-bot
-      PGDATA: "/var/lib/postgresql/data/pgdata"
-    ports:
-      - '5432:5432'
-    volumes:
-      - .:/var/lib/postgresql/data
     networks:
       - postgres
 

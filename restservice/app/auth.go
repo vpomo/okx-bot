@@ -6,7 +6,7 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"net/http"
 	"okx-bot/restservice/models"
-	u "okx-bot/restservice/utils"
+	util "okx-bot/restservice/utils"
 	"os"
 	"strings"
 )
@@ -31,19 +31,19 @@ var JwtAuthentication = func(next http.Handler) http.Handler {
 		tokenHeader := r.Header.Get("Authorization") //Grab the token from the header
 
 		if tokenHeader == "" { //Token is missing, returns with error code 403 Unauthorized
-			response = u.Message(false, "Missing auth token")
+			response = util.Message(false, "Missing auth token")
 			w.WriteHeader(http.StatusForbidden)
 			w.Header().Add("Content-Type", "application/json")
-			u.Respond(w, response)
+			util.Respond(w, response)
 			return
 		}
 
 		splitted := strings.Split(tokenHeader, " ") //The token normally comes in format `Bearer {token-body}`, we check if the retrieved token matched this requirement
 		if len(splitted) != 2 {
-			response = u.Message(false, "Invalid/Malformed auth token")
+			response = util.Message(false, "Invalid/Malformed auth token")
 			w.WriteHeader(http.StatusForbidden)
 			w.Header().Add("Content-Type", "application/json")
-			u.Respond(w, response)
+			util.Respond(w, response)
 			return
 		}
 
@@ -55,18 +55,18 @@ var JwtAuthentication = func(next http.Handler) http.Handler {
 		})
 
 		if err != nil { //Malformed token, returns with http code 403 as usual
-			response = u.Message(false, "Malformed authentication token")
+			response = util.Message(false, "Malformed authentication token")
 			w.WriteHeader(http.StatusForbidden)
 			w.Header().Add("Content-Type", "application/json")
-			u.Respond(w, response)
+			util.Respond(w, response)
 			return
 		}
 
 		if !token.Valid { //Token is invalid, maybe not signed on this server
-			response = u.Message(false, "Token is not valid.")
+			response = util.Message(false, "Token is not valid.")
 			w.WriteHeader(http.StatusForbidden)
 			w.Header().Add("Content-Type", "application/json")
-			u.Respond(w, response)
+			util.Respond(w, response)
 			return
 		}
 

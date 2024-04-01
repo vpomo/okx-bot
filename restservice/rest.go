@@ -1,15 +1,32 @@
 package main
 
 import (
-	"fmt"
 	"github.com/gorilla/mux"
+	"github.com/sirupsen/logrus"
 	"net/http"
 	"okx-bot/restservice/app"
 	"okx-bot/restservice/controllers"
 	"os"
+	"os/signal"
+	"syscall"
+)
+
+var (
+	logger = logrus.WithFields(logrus.Fields{
+		"app":       "okx-bot",
+		"component": "app.main-rest",
+	})
 )
 
 func main() {
+
+	logger.Logger.SetFormatter(&logrus.TextFormatter{
+		ForceColors:   true,
+		FullTimestamp: true,
+	})
+
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
 
 	router := mux.NewRouter()
 
@@ -19,18 +36,24 @@ func main() {
 	router.HandleFunc("/api/me/contacts", controllers.GetContactsFor).Methods("GET") //  user/2/contacts
 
 	router.Use(app.JwtAuthentication) //attach JWT auth middleware
-
-	//router.NotFoundHandler = app.NotFoundHandler
+	//router.NotFoundHandler = http.NotFoundHandler()
 
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8000" //localhost
 	}
 
-	fmt.Println(port)
+	logger.Info("port: ", port)
 
-	err := http.ListenAndServe(":"+port, router) //Launch the app, visit localhost:8000/api
-	if err != nil {
-		fmt.Print(err)
-	}
+	go func() {
+		logger.Infoln("Serving REST started")
+		err := http.ListenAndServe(":"+port, router) //Launch the app, visit localhost:8000/api
+		if err != nil {
+			logger.Error(err)
+		}
+	}()
+
+	<-c
+	logger.Info("Server graceful stopped")
+	os.Exit(0)
 }

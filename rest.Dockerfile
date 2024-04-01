@@ -27,3 +27,4 @@ COPY --from=builder ./build/.env /build/.env
 EXPOSE 8000
 
 CMD ["/build/rest"]
+#ENTRYPOINT /build/rest
