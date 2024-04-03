@@ -1,10 +1,13 @@
 package models
 
-import "github.com/jinzhu/gorm"
+import (
+	"github.com/jinzhu/gorm"
+	u "okx-bot/restservice/utils"
+)
 
-type Signal struct {
+type TradingViewSignal struct {
 	gorm.Model
-	Id                     string `json:"id"`
+	IdOrder                string `json:"idOrder"`
 	Action                 string `json:"action"`
 	MarketPosition         string `json:"marketPosition" sql:"-"`
 	PrevMarketPosition     string `json:"prevMarketPosition"`
@@ -14,4 +17,13 @@ type Signal struct {
 	SignalToken            string `json:"signalToken"`
 	Timestamp              string `json:"timestamp"`
 	Amount                 string `json:"amount"`
+}
+
+func (tradingViewSignal *TradingViewSignal) Save() map[string]interface{} {
+
+	GetDB().Create(tradingViewSignal)
+
+	response := u.Message(true, "TradingViewSignal has been saved")
+	response["tradingViewSignal"] = tradingViewSignal
+	return response
 }
