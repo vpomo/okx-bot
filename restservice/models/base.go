@@ -2,38 +2,56 @@ package models
 
 import (
 	"fmt"
-	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"github.com/joho/godotenv"
+	"github.com/sirupsen/logrus"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 	"os"
 )
 
+var (
+	blogger = logrus.WithFields(logrus.Fields{
+		"app":       "okx-bot",
+		"component": "app.models.base",
+	})
+)
 var db *gorm.DB
 
-func init() {
+func ConnectDB() {
+	blogger.Infoln("Connecting to DB")
 
 	e := godotenv.Load()
 	if e != nil {
 		fmt.Print(e)
 	}
 
-	username := os.Getenv("db_user")
-	password := os.Getenv("db_pass")
-	dbName := os.Getenv("db_name")
-	dbHost := os.Getenv("db_host")
+	dsn := fmt.Sprintf(
+		"host=%s user=%s password=%s dbname=%s port=5432 sslmode=disable",
+		os.Getenv("DB_HOST"),
+		os.Getenv("DB_USER"),
+		os.Getenv("DB_PASSWORD"),
+		os.Getenv("DB_NAME"),
+	)
 
-	dbUri := fmt.Sprintf("host=%s user=%s dbname=%s sslmode=disable password=%s", dbHost, username, dbName, password)
-	//	fmt.Println(dbUri)
+	blogger.Infoln("dsn: ", dsn)
 
-	conn, err := gorm.Open("postgres", dbUri)
+	conn, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	db = conn
+
 	if err != nil {
-		fmt.Print(err)
+		blogger.Errorf("Failed to connect to database. \n", err)
 	}
 
-	db = conn
-	db.Debug().AutoMigrate(&Account{}, &Contact{}, &TradingViewSignal{})
+	blogger.Infoln("connected")
+
+	blogger.Infoln("running migrations")
+	conn.Debug().AutoMigrate(&Account{}, &Contact{}, &TradingViewSignal{})
 }
 
 func GetDB() *gorm.DB {
+	if db == nil {
+		blogger.Error("Not db connection")
+		return nil
+	}
 	return db
 }

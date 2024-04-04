@@ -6,9 +6,11 @@ import (
 	"net/http"
 	"okx-bot/restservice/app"
 	"okx-bot/restservice/controllers"
+	"okx-bot/restservice/models"
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 )
 
 var (
@@ -45,14 +47,17 @@ func main() {
 		port = "8000" //localhost
 	}
 
-	logger.Info("port: ", port)
+	logger.Infoln("Waiting 5 second ...")
+	time.Sleep(5 * time.Second)
+	models.ConnectDB()
 
 	go func() {
-		logger.Infoln("Serving REST started")
+		logger.Infoln("Server REST starting ...")
 		err := http.ListenAndServe(":"+port, router) //Launch the app, visit localhost:8000/api
 		if err != nil {
 			logger.Error(err)
 		}
+		logger.Infoln("Serving REST started")
 	}()
 
 	<-c
