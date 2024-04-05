@@ -1,0 +1,10 @@
+meta:
+  environment: docker
+  toolchain: docker
+build:
+  skip: false
+  dockerfile: docker-compose --env-file .env build
+run:
+  persistenceMount: /data
+  containerPort: "8000"
+  image: docker-compose up
