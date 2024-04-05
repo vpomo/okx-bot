@@ -1,10 +1,11 @@
 meta:
-  environment: docker
+  version: latest
   toolchain: docker
+  environment: docker
 build:
-  skip: false
-  dockerfile: docker-compose --env-file .env build
+  skip: true
+  dockerfile: rest.Dockerfile
 run:
   persistenceMount: /data
-  containerPort: "8000"
-  image: docker-compose up
+  containerPort: 8000
+  image: /build/rest
