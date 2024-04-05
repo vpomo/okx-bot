@@ -47,9 +47,11 @@ func main() {
 		port = "8000" //localhost
 	}
 
-	logger.Infoln("Waiting 5 second ...")
-	time.Sleep(5 * time.Second)
-	models.ConnectDB()
+	go func() {
+		logger.Infoln("Waiting 5 second ...")
+		time.Sleep(5 * time.Second)
+		models.ConnectDB()
+	}()
 
 	go func() {
 		logger.Infoln("Server REST starting ...")
