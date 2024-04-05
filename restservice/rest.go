@@ -42,16 +42,16 @@ func main() {
 	router.Use(app.JwtAuthentication) //attach JWT auth middleware
 	//router.NotFoundHandler = http.NotFoundHandler()
 
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8000" //localhost
-	}
-
 	go func() {
 		logger.Infoln("Waiting 5 second ...")
 		time.Sleep(5 * time.Second)
 		models.ConnectDB()
 	}()
+
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8000" //localhost
+	}
 
 	go func() {
 		logger.Infoln("Server REST starting ...")
