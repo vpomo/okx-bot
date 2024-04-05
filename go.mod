@@ -18,6 +18,7 @@ require (
 )
 
 require (
+	github.com/aidarkhanov/nanoid v1.0.8 // indirect
 	github.com/andybalholm/brotli v1.0.6 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20231201235250-de7065d80cb9 // indirect

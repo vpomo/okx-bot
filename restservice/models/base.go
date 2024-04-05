@@ -7,6 +7,7 @@ import (
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"os"
+	"time"
 )
 
 var (
@@ -25,9 +26,17 @@ func ConnectDB() {
 		fmt.Print(e)
 	}
 
+	hostName := os.Getenv("DB_HOST")
+	if os.Getenv("NODE_ENV") == "dev" {
+		hostName = "localhost"
+	} else {
+		blogger.Infoln("Waiting 5 second ...")
+		time.Sleep(5 * time.Second)
+	}
+
 	dsn := fmt.Sprintf(
 		"host=%s user=%s password=%s dbname=%s port=5432 sslmode=disable",
-		os.Getenv("DB_HOST"),
+		hostName,
 		os.Getenv("DB_USER"),
 		os.Getenv("DB_PASSWORD"),
 		os.Getenv("DB_NAME"),

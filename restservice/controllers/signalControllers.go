@@ -26,5 +26,19 @@ var ReceiveSignal = func(w http.ResponseWriter, r *http.Request) {
 	}
 
 	signal.Save()
-	u.Respond(w, u.Message(true, "The signal is received"))
+	u.Respond(w, u.Message(true, "The signal was received"))
+}
+
+var CreateSignalObject = func(w http.ResponseWriter, r *http.Request) {
+
+	signal := &models.SignalObject{}
+
+	err := json.NewDecoder(r.Body).Decode(signal)
+	if err != nil {
+		u.Respond(w, u.Message(false, "Error while decoding request body"))
+		return
+	}
+
+	resp := signal.Create(signal.NameToken, signal.TimeInterval)
+	u.Respond(w, resp)
 }
